@@ -14,11 +14,11 @@ from django.db import models
     #  PRIMARY KEY (`id`) )
     #ENGINE = InnoDB;
 class Datacentre(models.Model):
-    name = models.CharField()
-    address = models.CharField()
-    city = models.CharField()
-    postcode = models.CharField()
-    country = models.CharField()
+    name = models.CharField(max_length=255)
+    address = models.CharField(max_length=255)
+    city = models.CharField(max_length=255)
+    postcode = models.CharField(max_length=255)
+    country = models.CharField(max_length=255)
     comments = models.TextField()
 
     #-- -----------------------------------------------------
@@ -40,7 +40,7 @@ class Datacentre(models.Model):
     #ENGINE = InnoDB;
 class Serverroom(models.Model):
     datacentre = models.ForeignKey(Datacentre, verbose_name="the datacentre this room is located")
-    name = models.CharField()
+    name = models.CharField(max_length=255)
     floor = models.PositiveIntegerField()
     comments = models.TextField()
 
@@ -78,7 +78,7 @@ class Rack(models.Model):
     kind = models.CharField(max_length=1, choices=KIND_CHOICES)
     row = models.PositiveIntegerField()
     serverroom = models.ForeignKey(Serverroom, verbose_name="the room this rack is located")
-    rack = models.ForeignKey('self', verbose_name="the rack this rack is in") # recursive relationship
+    rack = models.ForeignKey('self', related_name='parent_rack', verbose_name="the rack this rack is in") # recursive relationship
 
     #-- -----------------------------------------------------
     #-- Table `mydb`.`devices`
@@ -103,7 +103,7 @@ class Device(models.Model):
     rack = models.ForeignKey(Rack, verbose_name="the rack this device is in")
     height = models.PositiveIntegerField()
     position = models.PositiveIntegerField()
-    os = models.CharField()
+    os = models.CharField(max_length=255)
     startdate = models.DateField()
     enddate = models.DateField()
 
@@ -122,7 +122,7 @@ class Device(models.Model):
     #ENGINE = InnoDB;
 class Router(models.Model):
     device = models.ForeignKey(Device, verbose_name="the related device")
-    brand = models.CharField()
+    brand = models.CharField(max_length=255)
 
     #-- -----------------------------------------------------
     #-- Table `mydb`.`servers`
@@ -265,7 +265,7 @@ class Subnet(models.Model):
 class Networkinterfaces(models.Model):
     device = models.ForeignKey(Device, verbose_name="the device this interface belongs to")
     subnet = models.ForeignKey(Subnet, verbose_name="the subnet this interface is in")
-    name = models.CharField()
+    name = models.CharField(max_length=255)
     ip4 = models.IPAddressField()
     ip6 = models.IPAddressField()
     gateway4 = models.IPAddressField()
