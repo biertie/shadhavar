@@ -6,7 +6,7 @@ class Datacentre(models.Model):
     city = models.CharField(max_length=255)
     postcode = models.CharField(max_length=255)
     country = models.CharField(max_length=255)
-    comments = models.TextField()
+    comments = models.TextField(blank=True)
 
     __unicode__(self):
         return unicode(self.name)
@@ -15,7 +15,7 @@ class Serverroom(models.Model):
     datacentre = models.ForeignKey(Datacentre, verbose_name="the datacentre this room is located")
     name = models.CharField(max_length=255)
     floor = models.PositiveIntegerField()
-    comments = models.TextField()
+    comments = models.TextField(blank=True)
 
     __unicode__(self):
         return unicode(self.name)
@@ -30,7 +30,7 @@ class Rack(models.Model):
     kind = models.CharField(max_length=1, choices=KIND_CHOICES)
     row = models.PositiveIntegerField()
     serverroom = models.ForeignKey(Serverroom, verbose_name="the room this rack is located")
-    rack = models.ForeignKey('self', related_name='parent_rack', verbose_name="the rack this rack is in") # recursive relationship
+    rack = models.ForeignKey('self', related_name='parent_rack', verbose_name="the rack this rack is in", blank=True) # recursive relationship
 
     __unicode__(self):
         text = u'rack({0},{1})'.format(unicode(self.serverroom), self.row)
@@ -40,9 +40,9 @@ class Device(models.Model):
     rack = models.ForeignKey(Rack, verbose_name="the rack this device is in")
     height = models.PositiveIntegerField()
     position = models.PositiveIntegerField()
-    os = models.CharField(max_length=255)
-    startdate = models.DateField()
-    enddate = models.DateField()
+    os = models.CharField(max_length=255, blank=True)
+    startdate = models.DateField(blank=True)
+    enddate = models.DateField(blank=True)
 
     __unicode__(self):
         text = u'device({0}, {1}, {2})'.format(unicode(self.rack), self.position, self.os)
@@ -105,10 +105,10 @@ class PDU(Device):
         return text
 
 class Subnet(models.Model):
-    networkaddr4 = models.IPAddressField()
-    subnetaddr4 = models.IPAddressField()
-    networkaddr6 = models.IPAddressField()
-    subnetaddr6 = models.IPAddressField()
+    networkaddr4 = models.IPAddressField(blank=True)
+    subnetaddr4 = models.IPAddressField(blank=True)
+    networkaddr6 = models.IPAddressField(blank=True)
+    subnetaddr6 = models.IPAddressField(blank=True)
 
     __unicode__(self):
         text = u'subnet({0}, {1}, {2}, {3})'.format(self.networkaddr4, self.subnetaddr4, self.networkaddr6, self.subnetaddr6)
@@ -117,10 +117,10 @@ class Networkinterface(models.Model):
     device = models.ForeignKey(Device, verbose_name="the device this interface belongs to")
     subnet = models.ForeignKey(Subnet, verbose_name="the subnet this interface is in")
     name = models.CharField(max_length=255)
-    ip4 = models.IPAddressField()
-    ip6 = models.IPAddressField()
-    gateway4 = models.IPAddressField()
-    gateway6 = models.IPAddressField()
+    ip4 = models.IPAddressField(blank=True)
+    ip6 = models.IPAddressField(blank=True)
+    gateway4 = models.IPAddressField(blank=True)
+    gateway6 = models.IPAddressField(blank=True)
 
     __unicode__(self):
         return unicode(self.name)
