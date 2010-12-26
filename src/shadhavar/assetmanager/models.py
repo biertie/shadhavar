@@ -120,8 +120,8 @@ class Device(models.Model):
     #    ON DELETE NO ACTION
     #    ON UPDATE NO ACTION)
     #ENGINE = InnoDB;
-class Router(models.Model):
-    device = models.ForeignKey(Device, verbose_name="the related device")
+class Router(Device):
+    #device = models.ForeignKey(Device, verbose_name="the related device")
     brand = models.CharField(max_length=255)
 
     #-- -----------------------------------------------------
@@ -136,8 +136,9 @@ class Router(models.Model):
     #    ON DELETE NO ACTION
     #    ON UPDATE NO ACTION)
     #ENGINE = InnoDB;
-class Server(models.Model):
-    device = models.ForeignKey(Device, verbose_name="the related device")
+class Server(Device):
+    #device = models.ForeignKey(Device, verbose_name="the related device")
+    brand = models.CharField(max_length=255)
 
     #-- -----------------------------------------------------
     #-- Table `mydb`.`switches`
@@ -152,8 +153,9 @@ class Server(models.Model):
     #    ON DELETE NO ACTION
     #    ON UPDATE NO ACTION)
     #ENGINE = InnoDB;
-class Switch(models.Model):
-    device = models.ForeignKey(Device, verbose_name="the related device")
+class Switch(Device):
+    #device = models.ForeignKey(Device, verbose_name="the related device")
+    brand = models.CharField(max_length=255)
 
     #-- -----------------------------------------------------
     #-- Table `mydb`.`kvms`
@@ -168,8 +170,9 @@ class Switch(models.Model):
     #    ON DELETE NO ACTION
     #    ON UPDATE NO ACTION)
     #ENGINE = InnoDB;
-class KVM(models.Model):
-    device = models.ForeignKey(Device, verbose_name="the related device")
+class KVM(Device):
+    #device = models.ForeignKey(Device, verbose_name="the related device")
+    brand = models.CharField(max_length=255)
 
     #-- -----------------------------------------------------
     #-- Table `mydb`.`ups`
@@ -184,8 +187,9 @@ class KVM(models.Model):
     #    ON DELETE NO ACTION
     #    ON UPDATE NO ACTION)
     #ENGINE = InnoDB;
-class UPS(models.Model):
-    device = models.ForeignKey(Device, verbose_name="the related device")
+class UPS(Device):
+    #device = models.ForeignKey(Device, verbose_name="the related device")
+    brand = models.CharField(max_length=255)
 
     #-- -----------------------------------------------------
     #-- Table `mydb`.`others`
@@ -200,8 +204,9 @@ class UPS(models.Model):
     #    ON DELETE NO ACTION
     #    ON UPDATE NO ACTION)
     #ENGINE = InnoDB;
-class Other(models.Model):
-    device = models.ForeignKey(Device, verbose_name="the related device")
+class Other(Device):
+    #device = models.ForeignKey(Device, verbose_name="the related device")
+    brand = models.CharField(max_length=255)
 
     #-- -----------------------------------------------------
     #-- Table `mydb`.`pdus`
@@ -216,8 +221,9 @@ class Other(models.Model):
     #    ON DELETE NO ACTION
     #    ON UPDATE NO ACTION)
     #ENGINE = InnoDB;
-class PDU(models.Model):
-    device = models.ForeignKey(Device, verbose_name="the related device")
+class PDU(Device):
+    #device = models.ForeignKey(Device, verbose_name="the related device")
+    brand = models.CharField(max_length=255)
 
     #-- -----------------------------------------------------
     #-- Table `mydb`.`subnets`
@@ -290,6 +296,6 @@ class Networkinterfaces(models.Model):
     #    ON DELETE NO ACTION
     #    ON UPDATE NO ACTION)
     #ENGINE = InnoDB;
-class VM(models.Model):
-    device = models.ForeignKey(Device, verbose_name="the related device")
+class VM(Device):
+    #device = models.ForeignKey(Device, verbose_name="the related device")
     server = models.ForeignKey(Server, verbose_name="the server this VM runs on")
