@@ -15,6 +15,8 @@ class Serverroom(models.Model):
     datacentre = models.ForeignKey(Datacentre, verbose_name="the datacentre this room is located")
     name = models.CharField(max_length=255)
     floor = models.PositiveIntegerField()
+    maxrows = models.PositiveIntegerField()
+    maxcolumns = models.PositiveIntegerField()
     comments = models.TextField(blank=True)
 
     def __unicode__(self):
@@ -22,13 +24,16 @@ class Serverroom(models.Model):
 
 class Rack(models.Model):
     KIND_CHOICES = (
-        ('0', 'rack'),
-        ('1', 'blade'),
+        ('0', '19" rack'),
+        ('1', '23" rack'),
+        ('2', 'blade'),
     )
-
+	
+	name = models.CharField(max_length=255)
     height = models.PositiveIntegerField()
     kind = models.CharField(max_length=1, choices=KIND_CHOICES)
     row = models.PositiveIntegerField()
+    column = models.PositiveIntegerField()
     serverroom = models.ForeignKey(Serverroom, verbose_name="the room this rack is located")
     rack = models.ForeignKey('self', related_name='parent_rack', verbose_name="the rack this rack is in", blank=True, null=True) # recursive relationship
 
@@ -38,9 +43,14 @@ class Rack(models.Model):
 
 class Device(models.Model):
     rack = models.ForeignKey(Rack, verbose_name="the rack this device is in")
-    height = models.PositiveIntegerField()
-    position = models.PositiveIntegerField()
+    name = models.CharField(max_length=255)
+    height = models.PositiveIntegerField() #in units
+    position = models.PositiveIntegerField() # from bottom
+    brand = models.CharField(max_length=255)
+    brandType = = models.CharField(max_length=255)
     os = models.CharField(max_length=255, blank=True)
+    cpu = models.CharField(max_length=255)
+    ram = models.PositiveIntegerField() # in megabytes
     startdate = models.DateField(blank=True, null=True)
     enddate = models.DateField(blank=True, null=True)
 
