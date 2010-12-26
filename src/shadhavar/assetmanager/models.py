@@ -65,6 +65,8 @@ class Server(Device):
         return text
 
 class Switch(Device):
+    class Meta:
+        verbose_name_plural = "switches"
     #device = models.ForeignKey(Device, verbose_name="the related device")
     brand = models.CharField(max_length=255)
 
@@ -73,6 +75,8 @@ class Switch(Device):
         return text
 
 class KVM(Device):
+    class Meta:
+        verbose_name_plural = "KVMs"
     #device = models.ForeignKey(Device, verbose_name="the related device")
     brand = models.CharField(max_length=255)
 
@@ -81,6 +85,8 @@ class KVM(Device):
         return text
 
 class UPS(Device):
+    class Meta:
+        verbose_name_plural = "UPSes"
     #device = models.ForeignKey(Device, verbose_name="the related device")
     brand = models.CharField(max_length=255)
 
@@ -97,6 +103,8 @@ class Other(Device):
         return text
 
 class PDU(Device):
+    class Meta:
+        verbose_name_plural = "PDUs"
     #device = models.ForeignKey(Device, verbose_name="the related device")
     brand = models.CharField(max_length=255)
 
@@ -126,6 +134,8 @@ class Networkinterface(models.Model):
         return unicode(self.name)
 
 class VM(Device):
+    class Meta:
+        verbose_name_plural = "VMs"
     #device = models.ForeignKey(Device, verbose_name="the related device")
     server = models.ForeignKey(Server, verbose_name="the server this VM runs on")
 
