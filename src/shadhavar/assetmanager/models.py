@@ -30,7 +30,7 @@ class Rack(models.Model):
     kind = models.CharField(max_length=1, choices=KIND_CHOICES)
     row = models.PositiveIntegerField()
     serverroom = models.ForeignKey(Serverroom, verbose_name="the room this rack is located")
-    rack = models.ForeignKey('self', related_name='parent_rack', verbose_name="the rack this rack is in", blank=True) # recursive relationship
+    rack = models.ForeignKey('self', related_name='parent_rack', verbose_name="the rack this rack is in", blank=True, null=True) # recursive relationship
 
     def __unicode__(self):
         text = u'rack({0},{1})'.format(unicode(self.serverroom), self.row)
@@ -41,8 +41,8 @@ class Device(models.Model):
     height = models.PositiveIntegerField()
     position = models.PositiveIntegerField()
     os = models.CharField(max_length=255, blank=True)
-    startdate = models.DateField(blank=True)
-    enddate = models.DateField(blank=True)
+    startdate = models.DateField(blank=True, null=True)
+    enddate = models.DateField(blank=True, null=True)
 
     def __unicode__(self):
         text = u'device({0}, {1}, {2})'.format(unicode(self.rack), self.position, self.os)
