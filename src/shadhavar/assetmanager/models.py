@@ -130,26 +130,19 @@ class Subnet(models.Model):
 
     def __unicode__(self):
         text = u'subnet({0}, {1}, {2}, {3})'.format(self.networkaddr4, self.subnetaddr4, self.networkaddr6, self.subnetaddr6)
+        
+class NetworkHardInterface(models.Model):
+	kind = models.CharField(max_length=255)
+	
+	def __unicode__(self):
+        return unicode(self.kind)
+	
 
 class Networkinterface(models.Model):
-	KIND_CHOICES = (
-        ('0', 'Ethernet'),
-        ('1', 'FastEthernet'),
-        ('2', 'GbEthernet'),
-        ('3', '10GbEthernet'),
-        ('5', 'T1/E1'),
-        ('6', 'T3')
-        ('7', 'serial'),
-        ('8', 'wireless'),
-        ('9', 'bridge'),
-        ('10', 'vpn'),
-                
-    )
-    
     device = models.ForeignKey(Device, verbose_name="the device this interface belongs to")
     subnet = models.ForeignKey(Subnet, verbose_name="the subnet this interface is in")
+    kind = models.ForeignKey(NetworkHardInterface, verbose_name='the official type of the hardware port")
     name = models.CharField(max_length=255)
-    kind = models.CharField(max_length=1, choices=KIND_CHOICES)
     ip4 = models.IPAddressField(blank=True)
     ip6 = models.IPAddressField(blank=True)
     gateway4 = models.IPAddressField(blank=True)
