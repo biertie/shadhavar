@@ -28,8 +28,8 @@ class Rack(models.Model):
         ('1', '23" rack'),
         ('2', 'blade'),
     )
-	
-	name = models.CharField(max_length=255)
+
+    name = models.CharField(max_length=255)
     height = models.PositiveIntegerField()
     kind = models.CharField(max_length=1, choices=KIND_CHOICES)
     row = models.PositiveIntegerField()
@@ -130,18 +130,18 @@ class Subnet(models.Model):
 
     def __unicode__(self):
         text = u'subnet({0}, {1}, {2}, {3})'.format(self.networkaddr4, self.subnetaddr4, self.networkaddr6, self.subnetaddr6)
-        
+
 class NetworkHardInterface(models.Model):
-	kind = models.CharField(max_length=255)
-	
-	def __unicode__(self):
+    kind = models.CharField(max_length=255)
+
+    def __unicode__(self):
         return unicode(self.kind)
-	
+
 
 class Networkinterface(models.Model):
     device = models.ForeignKey(Device, verbose_name="the device this interface belongs to")
     subnet = models.ForeignKey(Subnet, verbose_name="the subnet this interface is in")
-    kind = models.ForeignKey(NetworkHardInterface, verbose_name='the official type of the hardware port")
+    kind = models.ForeignKey(NetworkHardInterface, verbose_name="the official type of the hardware port")
     name = models.CharField(max_length=255)
     ip4 = models.IPAddressField(blank=True)
     ip6 = models.IPAddressField(blank=True)
