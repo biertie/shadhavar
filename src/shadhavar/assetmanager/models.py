@@ -125,11 +125,13 @@ class PDU(Device):
 class Subnet(models.Model):
     networkaddr4 = models.IPAddressField(blank=True)
     subnetaddr4 = models.IPAddressField(blank=True)
+    broadcast4 = models.IPAddressField(blank=True)
     networkaddr6 = models.IPAddressField(blank=True)
     subnetaddr6 = models.IPAddressField(blank=True)
+    lastip6 = models.IPAddressField(blank=True)
 
     def __unicode__(self):
-        text = u'subnet({0}, {1}, {2}, {3})'.format(self.networkaddr4, self.subnetaddr4, self.networkaddr6, self.subnetaddr6)
+        text = u'subnet({0}, {1}, {2}, {3}, {4}, {5})'.format(self.networkaddr4, self.subnetaddr4, self.broadcast4, self.networkaddr6, self.subnetaddr6, self.lastip6)
 
 class NetworkHardInterface(models.Model):
     kind = models.CharField(max_length=255)
