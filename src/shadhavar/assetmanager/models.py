@@ -59,7 +59,6 @@ class Rack(models.Model):
     
     class Meta:
         verbose_name_plural = "Racks"
-        
 
     name = models.CharField(max_length=255)
     height = models.PositiveIntegerField()
@@ -82,7 +81,8 @@ class Device(models.Model):
     height = models.PositiveIntegerField() #in units
     position = models.PositiveIntegerField() # from bottom
     brand = models.CharField(max_length=255)
-    brandType = = models.CharField(max_length=255)
+    brandType = models.CharField(max_length=255)
+    serialnr = models.CharField(max_length=255)
     os = models.CharField(max_length=255, blank=True)
     cpu = models.CharField(max_length=255)
     ram = models.PositiveIntegerField() # in megabytes
@@ -114,6 +114,11 @@ class Server(Device):
         return text
 
 class Switch(Device):
+    KIND_CHOICES = (
+        ('0', 'Layer 2'),
+        ('1', 'Layer 3'),
+    )
+    
     class Meta:
         verbose_name_plural = "switches"
 
@@ -132,9 +137,26 @@ class KVM(Device):
         return text
 
 class UPS(Device):
+    MONITORING_CHOICES = (
+        ('0', 'RS-232 serial'),
+        ('1', 'Ethernet'),
+    )
+    
+    MANAGEMENT_CHOICES = (
+        ('0', 'telnet'),
+        ('1', 'SSH'),
+        ('2', 'SNMP'), 
+        ('3', 'web page'),
+    )
+    
     class Meta:
         verbose_name_plural = "UPSes"
 
+    power = models.FloatField() #VoltAmperes
+    ammountbatteries = PositiveIntegerField()
+    typebatteries = models.CharField(max_length=255)
+    monitoring = models.CharField(max_length=1, choices=MONITORING_CHOICES)
+    management = models.CharField(max_length=1, choices=MANAGEMENT_CHOICES)
 
     def __unicode__(self):
         text = u'UPS({0}, {1}, {2})'.format(unicode(self.rack), self.position, self.os)
@@ -149,9 +171,24 @@ class Other(Device):
         return text
 
 class PDU(Device):
+    MONITORING_CHOICES = (
+        ('0', 'RS-232 serial'),
+        ('1', 'Ethernet'),
+    )
+    
+    MANAGEMENT_CHOICES = (
+        ('0', 'telnet'),
+        ('1', 'SSH'),
+        ('2', 'SNMP'), 
+        ('3', 'web page'),
+    )
+    
     class Meta:
         verbose_name_plural = "PDUs"
-
+        
+    ammount = models.PositiveIntegerField() #ammount of outlets
+    monitoring = models.CharField(max_length=1, choices=MONITORING_CHOICES)
+    management = models.CharField(max_length=1, choices=MANAGEMENT_CHOICES)
 
     def __unicode__(self):
         text = u'PDU({0}, {1}, {2})'.format(unicode(self.rack), self.position, self.os)
@@ -160,8 +197,8 @@ class PDU(Device):
 class VM(Device):
     class Meta:
         verbose_name_plural = "VMs"
-        
-    server = models.ForeignKey(Server, verbose_name="the server this VM runs on")
+    
+    server = models.ForeignKey(Server, verbose_name="the server this vm runs on")
     functions = models.ManyToManyField(DeviceFunction)
 
     def __unicode__(self):
@@ -204,6 +241,7 @@ class Networkinterface(models.Model):
     ip6 = models.IPAddressField(blank=True)
     gateway4 = models.IPAddressField(blank=True)
     gateway6 = models.IPAddressField(blank=True)
+    mac = models.CharField(max_length=255)
 
     def __unicode__(self):
         return unicode(self.name)
