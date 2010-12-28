@@ -1,8 +1,9 @@
-# Copyright (C) 2010 Devnox-IT, http://opensource.devnox-it.com 
+# Copyright (C) 2010 Devnox-IT, http://www.devnox-it.com 
 #
 # Authors:
 #     * Bert Desmet <bert@devnox-it.com>
 #     * Bas Pape <basambora@gmail.com>
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
 # published by the Free Software Foundation, either version 3 of the
@@ -22,6 +23,9 @@
 from django.db import models
 
 class Datacentre(models.Model):
+    class Meta:
+        verbose_name_plural = "Datacenters"
+        
     name = models.CharField(max_length=255)
     address = models.CharField(max_length=255)
     city = models.CharField(max_length=255)
@@ -33,6 +37,9 @@ class Datacentre(models.Model):
         return unicode(self.name)
 
 class Serverroom(models.Model):
+    class Meta:
+        verbose_name_plural = "Serverrooms"
+        
     datacentre = models.ForeignKey(Datacentre, verbose_name="the datacentre this room is located")
     name = models.CharField(max_length=255)
     floor = models.PositiveIntegerField()
@@ -49,6 +56,10 @@ class Rack(models.Model):
         ('1', '23" rack'),
         ('2', 'blade'),
     )
+    
+    class Meta:
+        verbose_name_plural = "Racks"
+        
 
     name = models.CharField(max_length=255)
     height = models.PositiveIntegerField()
@@ -63,6 +74,9 @@ class Rack(models.Model):
         return text
 
 class Device(models.Model):
+    class Meta:
+        verbose_name_plural = "Devices"
+        
     rack = models.ForeignKey(Rack, verbose_name="the rack this device is in")
     name = models.CharField(max_length=255)
     height = models.PositiveIntegerField() #in units
@@ -80,7 +94,10 @@ class Device(models.Model):
         return text
 
 class Router(Device):
-    #device = models.ForeignKey(Device, verbose_name="the related device")
+    class Meta:
+        verbose_name_plural = "Routers"
+        
+
     brand = models.CharField(max_length=255)
 
     def __unicode__(self):
@@ -88,7 +105,10 @@ class Router(Device):
         return text
 
 class Server(Device):
-    #device = models.ForeignKey(Device, verbose_name="the related device")
+    class Meta:
+        verbose_name_plural = "Servers"
+        
+
     brand = models.CharField(max_length=255)
 
     def __unicode__(self):
@@ -98,7 +118,7 @@ class Server(Device):
 class Switch(Device):
     class Meta:
         verbose_name_plural = "switches"
-    #device = models.ForeignKey(Device, verbose_name="the related device")
+
     brand = models.CharField(max_length=255)
 
     def __unicode__(self):
@@ -108,7 +128,7 @@ class Switch(Device):
 class KVM(Device):
     class Meta:
         verbose_name_plural = "KVMs"
-    #device = models.ForeignKey(Device, verbose_name="the related device")
+
     brand = models.CharField(max_length=255)
 
     def __unicode__(self):
@@ -118,7 +138,7 @@ class KVM(Device):
 class UPS(Device):
     class Meta:
         verbose_name_plural = "UPSes"
-    #device = models.ForeignKey(Device, verbose_name="the related device")
+
     brand = models.CharField(max_length=255)
 
     def __unicode__(self):
@@ -126,7 +146,7 @@ class UPS(Device):
         return text
 
 class Other(Device):
-    #device = models.ForeignKey(Device, verbose_name="the related device")
+
     brand = models.CharField(max_length=255)
 
     def __unicode__(self):
@@ -136,7 +156,7 @@ class Other(Device):
 class PDU(Device):
     class Meta:
         verbose_name_plural = "PDUs"
-    #device = models.ForeignKey(Device, verbose_name="the related device")
+
     brand = models.CharField(max_length=255)
 
     def __unicode__(self):
@@ -144,6 +164,9 @@ class PDU(Device):
         return text
 
 class Subnet(models.Model):
+    class Meta:
+        verbose_name_plural = "Subnets"
+        
     networkaddr4 = models.IPAddressField(blank=True)
     subnetaddr4 = models.IPAddressField(blank=True)
     broadcast4 = models.IPAddressField(blank=True)
@@ -155,6 +178,9 @@ class Subnet(models.Model):
         text = u'subnet({0}, {1}, {2}, {3}, {4}, {5})'.format(self.networkaddr4, self.subnetaddr4, self.broadcast4, self.networkaddr6, self.subnetaddr6, self.lastip6)
 
 class NetworkHardInterface(models.Model):
+    class Meta:
+        verbose_name_plural = "NetworkHardInterfaces"
+        
     kind = models.CharField(max_length=255)
 
     def __unicode__(self):
@@ -162,6 +188,9 @@ class NetworkHardInterface(models.Model):
 
 
 class Networkinterface(models.Model):
+    class Meta:
+        verbose_name_plural = "Networkinterfaces"
+        
     device = models.ForeignKey(Device, verbose_name="the device this interface belongs to")
     subnet = models.ForeignKey(Subnet, verbose_name="the subnet this interface is in")
     kind = models.ForeignKey(NetworkHardInterface, verbose_name="the official type of the hardware port")
@@ -177,7 +206,7 @@ class Networkinterface(models.Model):
 class VM(Device):
     class Meta:
         verbose_name_plural = "VMs"
-    #device = models.ForeignKey(Device, verbose_name="the related device")
+        
     server = models.ForeignKey(Server, verbose_name="the server this VM runs on")
 
     def __unicode__(self):
