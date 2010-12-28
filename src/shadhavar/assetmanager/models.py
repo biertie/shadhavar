@@ -97,8 +97,7 @@ class Router(Device):
     class Meta:
         verbose_name_plural = "Routers"
         
-
-    brand = models.CharField(max_length=255)
+    functions = models.ManyToManyField(DeviceFunction)
 
     def __unicode__(self):
         text = u'router({0}, {1}, {2})'.format(unicode(self.rack), self.position, self.os)
@@ -108,8 +107,7 @@ class Server(Device):
     class Meta:
         verbose_name_plural = "Servers"
         
-
-    brand = models.CharField(max_length=255)
+    functions = models.ManyToManyField(DeviceFunction)
 
     def __unicode__(self):
         text = u'server({0}, {1}, {2})'.format(unicode(self.rack), self.position, self.os)
@@ -119,7 +117,6 @@ class Switch(Device):
     class Meta:
         verbose_name_plural = "switches"
 
-    brand = models.CharField(max_length=255)
 
     def __unicode__(self):
         text = u'switch({0}, {1}, {2})'.format(unicode(self.rack), self.position, self.os)
@@ -129,7 +126,6 @@ class KVM(Device):
     class Meta:
         verbose_name_plural = "KVMs"
 
-    brand = models.CharField(max_length=255)
 
     def __unicode__(self):
         text = u'KVM({0}, {1}, {2})'.format(unicode(self.rack), self.position, self.os)
@@ -139,7 +135,6 @@ class UPS(Device):
     class Meta:
         verbose_name_plural = "UPSes"
 
-    brand = models.CharField(max_length=255)
 
     def __unicode__(self):
         text = u'UPS({0}, {1}, {2})'.format(unicode(self.rack), self.position, self.os)
@@ -147,7 +142,7 @@ class UPS(Device):
 
 class Other(Device):
 
-    brand = models.CharField(max_length=255)
+    functions = models.ManyToManyField(DeviceFunction)
 
     def __unicode__(self):
         text = u'other({0}, {1}, {2})'.format(unicode(self.rack), self.position, self.os)
@@ -157,10 +152,20 @@ class PDU(Device):
     class Meta:
         verbose_name_plural = "PDUs"
 
-    brand = models.CharField(max_length=255)
 
     def __unicode__(self):
         text = u'PDU({0}, {1}, {2})'.format(unicode(self.rack), self.position, self.os)
+        return text
+        
+class VM(Device):
+    class Meta:
+        verbose_name_plural = "VMs"
+        
+    server = models.ForeignKey(Server, verbose_name="the server this VM runs on")
+    functions = models.ManyToManyField(DeviceFunction)
+
+    def __unicode__(self):
+        text = u'VM({0}, {1}, {2})'.format(unicode(self.rack), self.position, self.os)
         return text
 
 class Subnet(models.Model):
@@ -202,13 +207,10 @@ class Networkinterface(models.Model):
 
     def __unicode__(self):
         return unicode(self.name)
-
-class VM(Device):
-    class Meta:
-        verbose_name_plural = "VMs"
         
-    server = models.ForeignKey(Server, verbose_name="the server this VM runs on")
+class DeviceFunction(models.Model):
+    class Meta:
+        verbose_name_plural = "DeviceFunctions"
+        
+    name = models.CharField(max_length=255) 
 
-    def __unicode__(self):
-        text = u'VM({0}, {1}, {2})'.format(unicode(self.rack), self.position, self.os)
-        return text
