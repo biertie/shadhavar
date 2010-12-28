@@ -67,7 +67,8 @@ class Rack(models.Model):
     column = models.PositiveIntegerField()
     serverroom = models.ForeignKey(Serverroom, verbose_name="the room this rack is located")
     rack = models.ForeignKey('self', related_name='parent_rack', verbose_name="the rack this rack is in", blank=True, null=True) # recursive relationship
-
+    comments = models.TextField(blank=True)
+    
     def __unicode__(self):
         text = u'rack({0},{1})'.format(unicode(self.serverroom), self.row)
         return text
@@ -88,6 +89,7 @@ class Device(models.Model):
     ram = models.PositiveIntegerField() # in megabytes
     startdate = models.DateField(blank=True, null=True)
     enddate = models.DateField(blank=True, null=True)
+    comments = models.TextField(blank=True)
 
     def __unicode__(self):
         text = u'device({0}, {1}, {2})'.format(unicode(self.rack), self.position, self.os)
@@ -121,8 +123,10 @@ class Switch(Device):
     
     class Meta:
         verbose_name_plural = "switches"
-
-
+    
+    kind = models.CharField(max_length=1, choices=KIND_CHOICES)
+    poe = BooleanField() #power of ethernet
+    
     def __unicode__(self):
         text = u'switch({0}, {1}, {2})'.format(unicode(self.rack), self.position, self.os)
         return text
@@ -194,6 +198,29 @@ class PDU(Device):
         text = u'PDU({0}, {1}, {2})'.format(unicode(self.rack), self.position, self.os)
         return text
         
+class DiskArray(device):
+    ARRAY_CHOISES = (
+        ('0', 'Network Attached Storage (NAS)'),
+        ('1', 'Modular SAN array'),
+        ('2', 'Monolithic SAN array'),
+        ('3', 'Utillity Storage Array'),
+        ('4', 'Storage Virtualization'),     
+    )
+    
+    CONNECTION_CHOISES = (
+        ('0', 'Ethernet'),
+        ('1', 'Fiber'), 
+        ('2', 'Serial'),
+    )
+    
+    class Meta:
+        verbose_name_plural = "DiskArrays"
+ 
+    name = models.CharField(max_length=255)
+    maxDisks = models.PositiveIntegerField()
+    arrayType = models.CharField(max_length=1, choices=ARRAY_CHOICES)
+    connection = models.CharField(max_length=1, choices=CONNECTION_CHOICES)
+        
 class VM(Device):
     class Meta:
         verbose_name_plural = "VMs"
@@ -242,6 +269,8 @@ class Networkinterface(models.Model):
     gateway4 = models.IPAddressField(blank=True)
     gateway6 = models.IPAddressField(blank=True)
     mac = models.CharField(max_length=255)
+    vlan = models.PositiveIntegerField()
+    management = BooleanField() #is this a management port? 
 
     def __unicode__(self):
         return unicode(self.name)
@@ -250,5 +279,63 @@ class DeviceFunction(models.Model):
     class Meta:
         verbose_name_plural = "DeviceFunctions"
         
-    name = models.CharField(max_length=255) 
+    name = models.CharField(max_length=255)
+    
+    def __unicode__(self):
+        return unicode(self.name)
 
+class DiskArray(models.model):
+    RAID_CHOISES = (
+        ('0', 'Raid 0'),
+        ('1', 'Raid 1'),
+        ('2', 'Raid 2'),
+        ('3', 'Raid 3'),
+        ('4', 'Raid 4'),
+        ('5', 'Raid 5'),
+        ('6', 'Raid 6'),
+        ('7', 'Raid 1+0'),
+        ('8', 'Raid 0+1'),
+        ('9', 'Raid 5+1 / 53'),
+        ('10', 'JBOD'),
+    )
+    
+    class Meta:
+        verbose_name_plural = "RaidArrays"
+ 
+    name = models.CharField(max_length=255)
+    Size = models.FloatField()
+    raidType = models.CharField(max_length=1, choices=RAID_CHOICES)
+    
+class Harddisk(Server):
+    IDE_CHOISES = (
+        ('0', 'PATA'),
+        ('1', 'SATA'),
+        ('2', 'SCSI'),
+        ('3', 'SAS'),
+        ('4', 'FC'),
+    ) 
+    
+    class Meta:
+        verbose_name_plural = "Harddisks"
+        
+    serialnr = models.CharField(max_length=255)
+    size = models.FloatField() #in gigabytes
+    ide = models.CharField(max_length=1, choices=IDE_CHOISES)
+    array = models.ForeignKey(RaidArray, verbose_name="the diskarray this disk belongs to", null=True)
+    startdate = models.DateField(blank=True, null=True)
+    
+    def __unicode__(self):
+        text = u'Harddisk({0}, {1}, {2})'.format(unicode(self.server), self.size, self.serialnr)
+        return text
+    
+class Partition(Device):
+    class Meta:
+        verbose_name_plural = "Partitions"
+    
+    name = models.CharField(max_length=255)
+    size = models.FloatField() 
+    lvm = BooleanField()
+    
+    def __unicode__(self):
+        text = u'Partition({0}, {1})'.format(unicode(self.device), self.size)
+        return text
