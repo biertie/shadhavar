@@ -95,6 +95,15 @@ class Device(models.Model):
         text = u'device({0}, {1}, {2})'.format(unicode(self.rack), self.position, self.os)
         return text
 
+class DeviceFunction(models.Model):
+    class Meta:
+        verbose_name_plural = "DeviceFunctions"
+
+    name = models.CharField(max_length=255)
+
+    def __unicode__(self):
+        return unicode(self.name)
+
 class Router(Device):
     class Meta:
         verbose_name_plural = "Routers"
@@ -255,7 +264,6 @@ class NetworkHardInterface(models.Model):
     def __unicode__(self):
         return unicode(self.kind)
 
-
 class Networkinterface(models.Model):
     class Meta:
         verbose_name_plural = "Networkinterfaces"
@@ -272,15 +280,6 @@ class Networkinterface(models.Model):
     vlan = models.PositiveIntegerField()
     management = BooleanField() #is this a management port?
     connectedTo = models.ForeignKey('self', related_name='Connected_to', verbose_name="the networkinterface  is connected too", blank=True, null=True) # recursive relationship
-
-    def __unicode__(self):
-        return unicode(self.name)
-
-class DeviceFunction(models.Model):
-    class Meta:
-        verbose_name_plural = "DeviceFunctions"
-
-    name = models.CharField(max_length=255)
 
     def __unicode__(self):
         return unicode(self.name)
