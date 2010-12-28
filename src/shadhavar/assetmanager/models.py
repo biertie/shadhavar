@@ -1,4 +1,4 @@
-# Copyright (C) 2010 Devnox-IT, http://www.devnox-it.com 
+# Copyright (C) 2010 Devnox-IT, http://www.devnox-it.com
 #
 # Authors:
 #     * Bert Desmet <bert@devnox-it.com>
@@ -25,7 +25,7 @@ from django.db import models
 class Datacentre(models.Model):
     class Meta:
         verbose_name_plural = "Datacenters"
-        
+
     name = models.CharField(max_length=255)
     address = models.CharField(max_length=255)
     city = models.CharField(max_length=255)
@@ -39,7 +39,7 @@ class Datacentre(models.Model):
 class Serverroom(models.Model):
     class Meta:
         verbose_name_plural = "Serverrooms"
-        
+
     datacentre = models.ForeignKey(Datacentre, verbose_name="the datacentre this room is located")
     name = models.CharField(max_length=255)
     floor = models.PositiveIntegerField()
@@ -56,7 +56,7 @@ class Rack(models.Model):
         ('1', '23" rack'),
         ('2', 'blade'),
     )
-    
+
     class Meta:
         verbose_name_plural = "Racks"
 
@@ -68,7 +68,7 @@ class Rack(models.Model):
     serverroom = models.ForeignKey(Serverroom, verbose_name="the room this rack is located")
     rack = models.ForeignKey('self', related_name='parent_rack', verbose_name="the rack this rack is in", blank=True, null=True) # recursive relationship
     comments = models.TextField(blank=True)
-    
+
     def __unicode__(self):
         text = u'rack({0},{1})'.format(unicode(self.serverroom), self.row)
         return text
@@ -76,7 +76,7 @@ class Rack(models.Model):
 class Device(models.Model):
     class Meta:
         verbose_name_plural = "Devices"
-        
+
     rack = models.ForeignKey(Rack, verbose_name="the rack this device is in")
     name = models.CharField(max_length=255)
     height = models.PositiveIntegerField() #in units
@@ -98,7 +98,7 @@ class Device(models.Model):
 class Router(Device):
     class Meta:
         verbose_name_plural = "Routers"
-        
+
     functions = models.ManyToManyField(DeviceFunction)
 
     def __unicode__(self):
@@ -108,7 +108,7 @@ class Router(Device):
 class Server(Device):
     class Meta:
         verbose_name_plural = "Servers"
-        
+
     functions = models.ManyToManyField(DeviceFunction)
 
     def __unicode__(self):
@@ -120,13 +120,13 @@ class Switch(Device):
         ('0', 'Layer 2'),
         ('1', 'Layer 3'),
     )
-    
+
     class Meta:
         verbose_name_plural = "switches"
-    
+
     kind = models.CharField(max_length=1, choices=KIND_CHOICES)
     poe = BooleanField() #power of ethernet
-    
+
     def __unicode__(self):
         text = u'switch({0}, {1}, {2})'.format(unicode(self.rack), self.position, self.os)
         return text
@@ -145,14 +145,14 @@ class UPS(Device):
         ('0', 'RS-232 serial'),
         ('1', 'Ethernet'),
     )
-    
+
     MANAGEMENT_CHOICES = (
         ('0', 'telnet'),
         ('1', 'SSH'),
-        ('2', 'SNMP'), 
+        ('2', 'SNMP'),
         ('3', 'web page'),
     )
-    
+
     class Meta:
         verbose_name_plural = "UPSes"
 
@@ -179,17 +179,17 @@ class PDU(Device):
         ('0', 'RS-232 serial'),
         ('1', 'Ethernet'),
     )
-    
+
     MANAGEMENT_CHOICES = (
         ('0', 'telnet'),
         ('1', 'SSH'),
-        ('2', 'SNMP'), 
+        ('2', 'SNMP'),
         ('3', 'web page'),
     )
-    
+
     class Meta:
         verbose_name_plural = "PDUs"
-        
+
     ammount = models.PositiveIntegerField() #ammount of outlets
     monitoring = models.CharField(max_length=1, choices=MONITORING_CHOICES)
     management = models.CharField(max_length=1, choices=MANAGEMENT_CHOICES)
@@ -197,34 +197,34 @@ class PDU(Device):
     def __unicode__(self):
         text = u'PDU({0}, {1}, {2})'.format(unicode(self.rack), self.position, self.os)
         return text
-        
+
 class DiskArray(device):
     ARRAY_CHOISES = (
         ('0', 'Network Attached Storage (NAS)'),
         ('1', 'Modular SAN array'),
         ('2', 'Monolithic SAN array'),
         ('3', 'Utillity Storage Array'),
-        ('4', 'Storage Virtualization'),     
+        ('4', 'Storage Virtualization'),
     )
-    
+
     CONNECTION_CHOISES = (
         ('0', 'Ethernet'),
-        ('1', 'Fiber'), 
+        ('1', 'Fiber'),
         ('2', 'Serial'),
     )
-    
+
     class Meta:
         verbose_name_plural = "DiskArrays"
- 
+
     name = models.CharField(max_length=255)
     maxDisks = models.PositiveIntegerField()
     arrayType = models.CharField(max_length=1, choices=ARRAY_CHOICES)
     connection = models.CharField(max_length=1, choices=CONNECTION_CHOICES)
-        
+
 class VM(Device):
     class Meta:
         verbose_name_plural = "VMs"
-    
+
     server = models.ForeignKey(Server, verbose_name="the server this vm runs on")
     functions = models.ManyToManyField(DeviceFunction)
 
@@ -235,7 +235,7 @@ class VM(Device):
 class Subnet(models.Model):
     class Meta:
         verbose_name_plural = "Subnets"
-        
+
     networkaddr4 = models.IPAddressField(blank=True)
     subnetaddr4 = models.IPAddressField(blank=True)
     broadcast4 = models.IPAddressField(blank=True)
@@ -249,7 +249,7 @@ class Subnet(models.Model):
 class NetworkHardInterface(models.Model):
     class Meta:
         verbose_name_plural = "NetworkHardInterfaces"
-        
+
     kind = models.CharField(max_length=255)
 
     def __unicode__(self):
@@ -259,7 +259,7 @@ class NetworkHardInterface(models.Model):
 class Networkinterface(models.Model):
     class Meta:
         verbose_name_plural = "Networkinterfaces"
-        
+
     device = models.ForeignKey(Device, verbose_name="the device this interface belongs to")
     subnet = models.ForeignKey(Subnet, verbose_name="the subnet this interface is in")
     kind = models.ForeignKey(NetworkHardInterface, verbose_name="the official type of the hardware port")
@@ -270,18 +270,18 @@ class Networkinterface(models.Model):
     gateway6 = models.IPAddressField(blank=True)
     mac = models.CharField(max_length=255)
     vlan = models.PositiveIntegerField()
-    management = BooleanField() #is this a management port? 
+    management = BooleanField() #is this a management port?
     connectedTo = models.ForeignKey('self', related_name='Connected_to', verbose_name="the networkinterface  is connected too", blank=True, null=True) # recursive relationship
 
     def __unicode__(self):
         return unicode(self.name)
-        
+
 class DeviceFunction(models.Model):
     class Meta:
         verbose_name_plural = "DeviceFunctions"
-        
+
     name = models.CharField(max_length=255)
-    
+
     def __unicode__(self):
         return unicode(self.name)
 
@@ -299,14 +299,14 @@ class DiskArray(models.model):
         ('9', 'Raid 5+1 / 53'),
         ('10', 'JBOD'),
     )
-    
+
     class Meta:
         verbose_name_plural = "RaidArrays"
- 
+
     name = models.CharField(max_length=255)
     Size = models.FloatField()
     raidType = models.CharField(max_length=1, choices=RAID_CHOICES)
-    
+
 class Harddisk(Server):
     IDE_CHOISES = (
         ('0', 'PATA'),
@@ -314,29 +314,29 @@ class Harddisk(Server):
         ('2', 'SCSI'),
         ('3', 'SAS'),
         ('4', 'FC'),
-    ) 
-    
+    )
+
     class Meta:
         verbose_name_plural = "Harddisks"
-        
+
     serialnr = models.CharField(max_length=255)
     size = models.FloatField() #in gigabytes
     ide = models.CharField(max_length=1, choices=IDE_CHOISES)
     array = models.ForeignKey(RaidArray, verbose_name="the diskarray this disk belongs to", null=True)
     startdate = models.DateField(blank=True, null=True)
-    
+
     def __unicode__(self):
         text = u'Harddisk({0}, {1}, {2})'.format(unicode(self.server), self.size, self.serialnr)
         return text
-    
+
 class Partition(Device):
     class Meta:
         verbose_name_plural = "Partitions"
-    
+
     name = models.CharField(max_length=255)
-    size = models.FloatField() 
+    size = models.FloatField()
     lvm = BooleanField()
-    
+
     def __unicode__(self):
         text = u'Partition({0}, {1})'.format(unicode(self.device), self.size)
         return text
