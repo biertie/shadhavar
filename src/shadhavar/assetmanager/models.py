@@ -271,6 +271,7 @@ class Networkinterface(models.Model):
     mac = models.CharField(max_length=255)
     vlan = models.PositiveIntegerField()
     management = BooleanField() #is this a management port? 
+    connectedTo = models.ForeignKey('self', related_name='Connected_to', verbose_name="the networkinterface  is connected too", blank=True, null=True) # recursive relationship
 
     def __unicode__(self):
         return unicode(self.name)
