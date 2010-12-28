@@ -134,7 +134,7 @@ class Switch(Device):
         verbose_name_plural = "switches"
 
     kind = models.CharField(max_length=1, choices=KIND_CHOICES)
-    poe = BooleanField() #power of ethernet
+    poe = models.BooleanField() #power of ethernet
 
     def __unicode__(self):
         text = u'switch({0}, {1}, {2})'.format(unicode(self.rack), self.position, self.os)
@@ -166,7 +166,7 @@ class UPS(Device):
         verbose_name_plural = "UPSes"
 
     power = models.FloatField() #VoltAmperes
-    ammountbatteries = PositiveIntegerField()
+    ammountbatteries = models.PositiveIntegerField()
     typebatteries = models.CharField(max_length=255)
     monitoring = models.CharField(max_length=1, choices=MONITORING_CHOICES)
     management = models.CharField(max_length=1, choices=MANAGEMENT_CHOICES)
@@ -207,8 +207,8 @@ class PDU(Device):
         text = u'PDU({0}, {1}, {2})'.format(unicode(self.rack), self.position, self.os)
         return text
 
-class DiskArray(device):
-    ARRAY_CHOISES = (
+class DiskArray(Device):
+    ARRAY_CHOICES = (
         ('0', 'Network Attached Storage (NAS)'),
         ('1', 'Modular SAN array'),
         ('2', 'Monolithic SAN array'),
@@ -216,7 +216,7 @@ class DiskArray(device):
         ('4', 'Storage Virtualization'),
     )
 
-    CONNECTION_CHOISES = (
+    CONNECTION_CHOICES = (
         ('0', 'Ethernet'),
         ('1', 'Fiber'),
         ('2', 'Serial'),
@@ -225,7 +225,7 @@ class DiskArray(device):
     class Meta:
         verbose_name_plural = "DiskArrays"
 
-    name = models.CharField(max_length=255)
+    #name = models.CharField(max_length=255)
     maxDisks = models.PositiveIntegerField()
     arrayType = models.CharField(max_length=1, choices=ARRAY_CHOICES)
     connection = models.CharField(max_length=1, choices=CONNECTION_CHOICES)
@@ -278,14 +278,14 @@ class Networkinterface(models.Model):
     gateway6 = models.IPAddressField(blank=True)
     mac = models.CharField(max_length=255)
     vlan = models.PositiveIntegerField()
-    management = BooleanField() #is this a management port?
+    management = models.BooleanField() #is this a management port?
     connectedTo = models.ForeignKey('self', related_name='Connected_to', verbose_name="the networkinterface  is connected too", blank=True, null=True) # recursive relationship
 
     def __unicode__(self):
         return unicode(self.name)
 
-class DiskArray(models.model):
-    RAID_CHOISES = (
+class RaidArray(models.Model):
+    RAID_CHOICES = (
         ('0', 'Raid 0'),
         ('1', 'Raid 1'),
         ('2', 'Raid 2'),
@@ -307,7 +307,7 @@ class DiskArray(models.model):
     raidType = models.CharField(max_length=1, choices=RAID_CHOICES)
 
 class Harddisk(Server):
-    IDE_CHOISES = (
+    IDE_CHOICES = (
         ('0', 'PATA'),
         ('1', 'SATA'),
         ('2', 'SCSI'),
@@ -320,7 +320,7 @@ class Harddisk(Server):
 
     serialnr = models.CharField(max_length=255)
     size = models.FloatField() #in gigabytes
-    ide = models.CharField(max_length=1, choices=IDE_CHOISES)
+    ide = models.CharField(max_length=1, choices=IDE_CHOICES)
     array = models.ForeignKey(RaidArray, verbose_name="the diskarray this disk belongs to", null=True)
     startdate = models.DateField(blank=True, null=True)
 
@@ -332,9 +332,9 @@ class Partition(Device):
     class Meta:
         verbose_name_plural = "Partitions"
 
-    name = models.CharField(max_length=255)
+    #name = models.CharField(max_length=255)
     size = models.FloatField()
-    lvm = BooleanField()
+    lvm = models.BooleanField()
 
     def __unicode__(self):
         text = u'Partition({0}, {1})'.format(unicode(self.device), self.size)
