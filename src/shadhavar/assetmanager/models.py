@@ -82,8 +82,8 @@ class Device(models.Model):
     brandType = models.CharField(max_length=255)
     serialnr = models.CharField(max_length=255, blank=True)
     os = models.CharField(max_length=255, blank=True)
-    startdate = models.DateField(blank=True, null=True)
-    enddate = models.DateField(blank=True, null=True)
+    startdate = models.DateField(blank=True)
+    enddate = models.DateField(blank=True)
     comments = models.TextField(blank=True)
 
     def __unicode__(self):
@@ -105,7 +105,7 @@ class Router(Device):
 
     functions = models.ManyToManyField(DeviceFunction)
     cpu = models.CharField(max_length=255, blank=True)
-    ram = models.PositiveIntegerField(blank=True) # in megabytes
+    ram = models.PositiveIntegerField(blank=True, null=True) # in megabytes
 
     def __unicode__(self):
         text = u'router({0}, {1}, {2})'.format(unicode(self.rack), self.position, self.os)
@@ -117,7 +117,7 @@ class Server(Device):
 
     functions = models.ManyToManyField(DeviceFunction)
     cpu = models.CharField(max_length=255, blank=True)
-    ram = models.PositiveIntegerField(blank=True) # in megabytes
+    ram = models.PositiveIntegerField(blank=True, null=True) # in megabytes
     gpu = models.CharField(max_length=255)
 
 
@@ -153,7 +153,7 @@ class KVM(Device):
 
     connections = models.ManyToManyField(Device, related_name='connected_devices')
     remote = models.CharField(max_length=1, choices=REMOTE_CHOICES)
-    maxdevices = models.PositiveIntegerField(blank=True)
+    maxdevices = models.PositiveIntegerField(blank=True, null=True)
 
     def __unicode__(self):
         text = u'KVM({0}, {1}, {2})'.format(unicode(self.rack), self.position, self.os)
@@ -228,7 +228,7 @@ class DiskArray(Device):
 
     CONNECTION_CHOICES = (
         ('0', 'Ethernet'),
-        ('1', 'Fiber'),
+        ('1', 'Fiberchannel'),
         ('2', 'Serial'),
     )
 
@@ -238,6 +238,7 @@ class DiskArray(Device):
     maxDisks = models.PositiveIntegerField()
     arrayType = models.CharField(max_length=1, choices=ARRAY_CHOICES)
     connection = models.CharField(max_length=1, choices=CONNECTION_CHOICES)
+    conntectTo = models.ForeignKey(Server, verbose_name="the server this diskarray is conntected to", blank=True, null=True)
 
 class VM(Device):
     class Meta:
@@ -247,7 +248,7 @@ class VM(Device):
     functions = models.ManyToManyField(DeviceFunction)
     hypervisor = models.CharField(max_length=255)
     cpu = models.CharField(max_length=255, blank=True)
-    ram = models.PositiveIntegerField(blank=True) # in megabytes
+    ram = models.PositiveIntegerField(blank=True, null=True) # in megabytes
 
     def __unicode__(self):
         text = u'VM({0}, {1}, {2})'.format(unicode(self.rack), self.position, self.os)
@@ -324,7 +325,6 @@ class Harddisk(models.Model):
         ('1', 'SATA'),
         ('2', 'SCSI'),
         ('3', 'SAS'),
-        ('4', 'FC'),
     )
 
     class Meta:
@@ -334,8 +334,8 @@ class Harddisk(models.Model):
     size = models.FloatField() #in gigabytes
     ide = models.CharField(max_length=1, choices=IDE_CHOICES)
     array = models.ForeignKey(RaidArray, verbose_name="the raid array this disk belongs to", null=True)
-    startdate = models.DateField(blank=True, null=True)
-    enddate = models.DateField(blank=True, null=True) #warranty
+    startdate = models.DateField(blank=True)
+    enddate = models.DateField(blank=True) #warranty
     brand = models.CharField(max_length=255)
     brandType = models.CharField(max_length=255)
     serialnr = models.CharField(max_length=255, blank=True)
