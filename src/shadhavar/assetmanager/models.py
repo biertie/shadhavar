@@ -119,6 +119,8 @@ class Server(Device):
         verbose_name_plural = "Servers"
 
     functions = models.ManyToManyField(DeviceFunction)
+    gpu = models.CharField(max_length=255)
+    
 
     def __unicode__(self):
         text = u'server({0}, {1}, {2})'.format(unicode(self.rack), self.position, self.os)
@@ -141,10 +143,19 @@ class Switch(Device):
         return text
 
 class KVM(Device):
+    REMOTE_CHOICES = (
+        ('0', 'no'),
+        ('1', 'Local remote / USB'),
+        ('2', 'KVM over IP'),
+    )
+    
     class Meta:
         verbose_name_plural = "KVMs"
 
-
+    functions = models.ManyToManyField(Device)
+    remote = models.CharField(max_length=1, choices=REMOTE_CHOICES)
+    maxdevices = models.PositiveIntegerField(blank=True)
+    
     def __unicode__(self):
         text = u'KVM({0}, {1}, {2})'.format(unicode(self.rack), self.position, self.os)
         return text
@@ -225,7 +236,6 @@ class DiskArray(Device):
     class Meta:
         verbose_name_plural = "DiskArrays"
 
-    #name = models.CharField(max_length=255)
     maxDisks = models.PositiveIntegerField()
     arrayType = models.CharField(max_length=1, choices=ARRAY_CHOICES)
     connection = models.CharField(max_length=1, choices=CONNECTION_CHOICES)
@@ -236,6 +246,7 @@ class VM(Device):
 
     server = models.ForeignKey(Server, verbose_name="the server this vm runs on")
     functions = models.ManyToManyField(DeviceFunction)
+    hypervisor = models.CharField(max_length=255) 
 
     def __unicode__(self):
         text = u'VM({0}, {1}, {2})'.format(unicode(self.rack), self.position, self.os)
@@ -318,12 +329,12 @@ class Harddisk(Models.model):
     class Meta:
         verbose_name_plural = "Harddisks"
 
-    parent = models.ForeignKey(Device, verbose_name="the device this hard disk is place in", null=True)
+    parent = models.ForeignKey(Device, verbose_name="the device this hard disk is placed in", null=True)
     size = models.FloatField() #in gigabytes
     ide = models.CharField(max_length=1, choices=IDE_CHOICES)
     array = models.ForeignKey(RaidArray, verbose_name="the diskarray this disk belongs to", null=True)
     startdate = models.DateField(blank=True, null=True)
-    enddate = models.Datefield(blank=True, null=True) #warranty 
+    enddate = models.Datefield(blank=True, null=True) #warranty
     brand = models.CharField(max_length=255)
     brandType = models.CharField(max_length=255)
     serialnr = models.CharField(max_length=255, blank=True)
@@ -332,11 +343,12 @@ class Harddisk(Models.model):
         text = u'Harddisk({0}, {1}, {2})'.format(unicode(self.server), self.size, self.serialnr)
         return text
 
-class Partition(Device):
+class Partition(Models.model):
     class Meta:
         verbose_name_plural = "Partitions"
-
-    #name = models.CharField(max_length=255)
+    
+    parent = models.ForeignKey(Device, verbose_name="the device this hard disk is placed in")
+    name = models.CharField(max_length=255)
     size = models.FloatField()
     lvm = models.BooleanField()
 
