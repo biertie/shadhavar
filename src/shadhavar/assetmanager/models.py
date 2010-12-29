@@ -76,8 +76,8 @@ class Device(models.Model):
 
     rack = models.ForeignKey(Rack, verbose_name="the rack this device is in")
     name = models.CharField(max_length=255)
-    height = models.PositiveIntegerField(blank=True) #in units
-    position = models.PositiveIntegerField(blank=True) # from bottom
+    height = models.PositiveIntegerField(blank=True, null=True) #in units
+    position = models.PositiveIntegerField(blank=True, null=True) # from bottom
     brand = models.CharField(max_length=255)
     brandType = models.CharField(max_length=255)
     serialnr = models.CharField(max_length=255, blank=True)
