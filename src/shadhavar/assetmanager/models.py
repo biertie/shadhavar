@@ -79,14 +79,14 @@ class Device(models.Model):
 
     rack = models.ForeignKey(Rack, verbose_name="the rack this device is in")
     name = models.CharField(max_length=255)
-    height = models.PositiveIntegerField() #in units
-    position = models.PositiveIntegerField() # from bottom
+    height = models.PositiveIntegerField(blank=True) #in units
+    position = models.PositiveIntegerField(blank=True) # from bottom
     brand = models.CharField(max_length=255)
     brandType = models.CharField(max_length=255)
-    serialnr = models.CharField(max_length=255)
+    serialnr = models.CharField(max_length=255, blank=True)
     os = models.CharField(max_length=255, blank=True)
-    cpu = models.CharField(max_length=255)
-    ram = models.PositiveIntegerField() # in megabytes
+    cpu = models.CharField(max_length=255, blank=True)
+    ram = models.PositiveIntegerField(blank=True) # in megabytes
     startdate = models.DateField(blank=True, null=True)
     enddate = models.DateField(blank=True, null=True)
     comments = models.TextField(blank=True)
@@ -306,7 +306,7 @@ class RaidArray(models.Model):
     Size = models.FloatField()
     raidType = models.CharField(max_length=1, choices=RAID_CHOICES)
 
-class Harddisk(Server):
+class Harddisk(Models.model):
     IDE_CHOICES = (
         ('0', 'PATA'),
         ('1', 'SATA'),
@@ -318,11 +318,15 @@ class Harddisk(Server):
     class Meta:
         verbose_name_plural = "Harddisks"
 
-    serialnr = models.CharField(max_length=255)
+    parent = models.ForeignKey(Device, verbose_name="the device this hard disk is place in", null=True)
     size = models.FloatField() #in gigabytes
     ide = models.CharField(max_length=1, choices=IDE_CHOICES)
     array = models.ForeignKey(RaidArray, verbose_name="the diskarray this disk belongs to", null=True)
     startdate = models.DateField(blank=True, null=True)
+    enddate = models.Datefield(blank=True, null=True) #warranty 
+    brand = models.CharField(max_length=255)
+    brandType = models.CharField(max_length=255)
+    serialnr = models.CharField(max_length=255, blank=True)
 
     def __unicode__(self):
         text = u'Harddisk({0}, {1}, {2})'.format(unicode(self.server), self.size, self.serialnr)
