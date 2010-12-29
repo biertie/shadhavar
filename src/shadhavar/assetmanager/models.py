@@ -266,7 +266,8 @@ class Subnet(models.Model):
     lastip6 = models.IPAddressField(blank=True)
 
     def __unicode__(self):
-        text = u'subnet({0}, {1}, {2}, {3}, {4}, {5})'.format(self.networkaddr4, self.subnetaddr4, self.broadcast4, self.networkaddr6, self.subnetaddr6, self.lastip6)
+        text = 'subnet({0}, {1}, {2}, {3}, {4}, {5})'.format(unicode(self.networkaddr4), unicode(self.subnetaddr4), unicode(self.broadcast4), unicode(self.networkaddr6), unicode(self.subnetaddr6), unicode(self.lastip6))
+        return unicode(text)
 
 class NetworkHardInterface(models.Model):
     class Meta:
