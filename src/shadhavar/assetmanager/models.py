@@ -82,8 +82,8 @@ class Device(models.Model):
     brandType = models.CharField(max_length=255)
     serialnr = models.CharField(max_length=255, blank=True)
     os = models.CharField(max_length=255, blank=True)
-    startdate = models.DateField(blank=True)
-    enddate = models.DateField(blank=True)
+    startdate = models.DateField(blank=True, null=True)
+    enddate = models.DateField(blank=True, null=True)
     comments = models.TextField(blank=True)
 
     def __unicode__(self):
@@ -335,8 +335,8 @@ class Harddisk(models.Model):
     size = models.FloatField() #in gigabytes
     ide = models.CharField(max_length=1, choices=IDE_CHOICES)
     array = models.ForeignKey(RaidArray, verbose_name="the raid array this disk belongs to", null=True)
-    startdate = models.DateField(blank=True)
-    enddate = models.DateField(blank=True) #warranty
+    startdate = models.DateField(blank=True, null=True)
+    enddate = models.DateField(blank=True, null=True) #warranty
     brand = models.CharField(max_length=255)
     brandType = models.CharField(max_length=255)
     serialnr = models.CharField(max_length=255, blank=True)
