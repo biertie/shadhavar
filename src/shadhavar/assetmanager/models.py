@@ -333,7 +333,7 @@ class Harddisk(models.Model):
     parent = models.ForeignKey(Device, verbose_name="the device this hard disk is placed in", null=True)
     size = models.FloatField() #in gigabytes
     ide = models.CharField(max_length=1, choices=IDE_CHOICES)
-    array = models.ForeignKey(RaidArray, verbose_name="the diskarray this disk belongs to", null=True)
+    array = models.ForeignKey(RaidArray, verbose_name="the raid array this disk belongs to", null=True)
     startdate = models.DateField(blank=True, null=True)
     enddate = models.DateField(blank=True, null=True) #warranty
     brand = models.CharField(max_length=255)
