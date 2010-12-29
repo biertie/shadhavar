@@ -118,7 +118,7 @@ class Server(Device):
     functions = models.ManyToManyField(DeviceFunction)
     cpu = models.CharField(max_length=255, blank=True)
     ram = models.PositiveIntegerField(blank=True, null=True) # in megabytes
-    gpu = models.CharField(max_length=255)
+    gpu = models.CharField(max_length=255, blank=True)
 
 
     def __unicode__(self):
@@ -355,5 +355,5 @@ class Partition(models.Model):
     lvm = models.BooleanField()
 
     def __unicode__(self):
-        text = u'Partition({0}, {1})'.format(unicode(self.device), self.size)
+        text = u'Partition({0}, {1})'.format(unicode(self.parent), self.size)
         return text
