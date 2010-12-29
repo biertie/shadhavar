@@ -82,8 +82,6 @@ class Device(models.Model):
     brandType = models.CharField(max_length=255)
     serialnr = models.CharField(max_length=255, blank=True)
     os = models.CharField(max_length=255, blank=True)
-    cpu = models.CharField(max_length=255, blank=True)
-    ram = models.PositiveIntegerField(blank=True) # in megabytes
     startdate = models.DateField(blank=True, null=True)
     enddate = models.DateField(blank=True, null=True)
     comments = models.TextField(blank=True)
@@ -106,6 +104,8 @@ class Router(Device):
         verbose_name_plural = "Routers"
 
     functions = models.ManyToManyField(DeviceFunction)
+    cpu = models.CharField(max_length=255, blank=True)
+    ram = models.PositiveIntegerField(blank=True) # in megabytes
 
     def __unicode__(self):
         text = u'router({0}, {1}, {2})'.format(unicode(self.rack), self.position, self.os)
@@ -116,6 +116,8 @@ class Server(Device):
         verbose_name_plural = "Servers"
 
     functions = models.ManyToManyField(DeviceFunction)
+    cpu = models.CharField(max_length=255, blank=True)
+    ram = models.PositiveIntegerField(blank=True) # in megabytes
     gpu = models.CharField(max_length=255)
 
 
@@ -244,6 +246,8 @@ class VM(Device):
     server = models.ForeignKey(Server, verbose_name="the server this vm runs on")
     functions = models.ManyToManyField(DeviceFunction)
     hypervisor = models.CharField(max_length=255)
+    cpu = models.CharField(max_length=255, blank=True)
+    ram = models.PositiveIntegerField(blank=True) # in megabytes
 
     def __unicode__(self):
         text = u'VM({0}, {1}, {2})'.format(unicode(self.rack), self.position, self.os)
