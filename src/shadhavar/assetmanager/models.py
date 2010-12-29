@@ -28,7 +28,7 @@ class Datacentre(models.Model):
     city = models.CharField(max_length=255)
     postcode = models.CharField(max_length=255)
     country = models.CharField(max_length=255)
-    comments = models.TextField(blank=True, null=True)
+    comments = models.TextField(blank=True)
 
     def __unicode__(self):
         return unicode(self.name)
@@ -42,7 +42,7 @@ class Serverroom(models.Model):
     floor = models.PositiveIntegerField()
     maxrows = models.PositiveIntegerField()
     maxcolumns = models.PositiveIntegerField()
-    comments = models.TextField(blank=True, null=True)
+    comments = models.TextField(blank=True)
 
     def __unicode__(self):
         return unicode(self.name)
@@ -64,7 +64,7 @@ class Rack(models.Model):
     column = models.PositiveIntegerField()
     serverroom = models.ForeignKey(Serverroom, verbose_name="the room this rack is located")
     rack = models.ForeignKey('self', related_name='parent_rack', verbose_name="the rack this rack is in", blank=True, null=True) # recursive relationship
-    comments = models.TextField(blank=True, null=True)
+    comments = models.TextField(blank=True)
 
     def __unicode__(self):
         text = u'rack({0},{1})'.format(unicode(self.serverroom), self.row)
@@ -80,11 +80,11 @@ class Device(models.Model):
     position = models.PositiveIntegerField(blank=True, null=True) # from bottom
     brand = models.CharField(max_length=255)
     brandType = models.CharField(max_length=255)
-    serialnr = models.CharField(max_length=255, blank=True, null=True)
+    serialnr = models.CharField(max_length=255, blank=True)
     os = models.CharField(max_length=255, blank=True)
-    startdate = models.DateField(blank=True, null=True)
-    enddate = models.DateField(blank=True, null=True)
-    comments = models.TextField(blank=True, null=True)
+    startdate = models.DateField(blank=True)
+    enddate = models.DateField(blank=True)
+    comments = models.TextField(blank=True)
 
     def __unicode__(self):
         text = u'device({0}, {1}, {2})'.format(unicode(self.rack), self.position, self.os)
@@ -104,7 +104,7 @@ class Router(Device):
         verbose_name_plural = "Routers"
 
     functions = models.ManyToManyField(DeviceFunction)
-    cpu = models.CharField(max_length=255, blank=True, null=True)
+    cpu = models.CharField(max_length=255, blank=True)
     ram = models.PositiveIntegerField(blank=True, null=True) # in megabytes
 
     def __unicode__(self):
@@ -116,7 +116,7 @@ class Server(Device):
         verbose_name_plural = "Servers"
 
     functions = models.ManyToManyField(DeviceFunction)
-    cpu = models.CharField(max_length=255, blank=True, null=True)
+    cpu = models.CharField(max_length=255, blank=True)
     ram = models.PositiveIntegerField(blank=True, null=True) # in megabytes
     gpu = models.CharField(max_length=255)
 
@@ -247,7 +247,7 @@ class VM(Device):
     server = models.ForeignKey(Server, verbose_name="the server this vm runs on")
     functions = models.ManyToManyField(DeviceFunction)
     hypervisor = models.CharField(max_length=255)
-    cpu = models.CharField(max_length=255, blank=True, null=True)
+    cpu = models.CharField(max_length=255, blank=True)
     ram = models.PositiveIntegerField(blank=True, null=True) # in megabytes
 
     def __unicode__(self):
@@ -258,12 +258,12 @@ class Subnet(models.Model):
     class Meta:
         verbose_name_plural = "Subnets"
 
-    networkaddr4 = models.IPAddressField(blank=True, null=True)
-    subnetaddr4 = models.IPAddressField(blank=True, null=True)
-    broadcast4 = models.IPAddressField(blank=True, null=True)
-    networkaddr6 = models.IPAddressField(blank=True, null=True)
-    subnetaddr6 = models.IPAddressField(blank=True, null=True)
-    lastip6 = models.IPAddressField(blank=True, null=True)
+    networkaddr4 = models.IPAddressField(blank=True)
+    subnetaddr4 = models.IPAddressField(blank=True)
+    broadcast4 = models.IPAddressField(blank=True)
+    networkaddr6 = models.IPAddressField(blank=True)
+    subnetaddr6 = models.IPAddressField(blank=True)
+    lastip6 = models.IPAddressField(blank=True)
 
     def __unicode__(self):
         text = u'subnet({0}, {1}, {2}, {3}, {4}, {5})'.format(self.networkaddr4, self.subnetaddr4, self.broadcast4, self.networkaddr6, self.subnetaddr6, self.lastip6)
@@ -285,10 +285,10 @@ class Networkinterface(models.Model):
     subnet = models.ForeignKey(Subnet, verbose_name="the subnet this interface is in")
     kind = models.ForeignKey(NetworkHardInterface, verbose_name="the official type of the hardware port")
     name = models.CharField(max_length=255)
-    ip4 = models.IPAddressField(blank=True, null=True)
-    ip6 = models.IPAddressField(blank=True, null=True)
-    gateway4 = models.IPAddressField(blank=True, null=True)
-    gateway6 = models.IPAddressField(blank=True, null=True)
+    ip4 = models.IPAddressField(blank=True)
+    ip6 = models.IPAddressField(blank=True)
+    gateway4 = models.IPAddressField(blank=True)
+    gateway6 = models.IPAddressField(blank=True)
     mac = models.CharField(max_length=255)
     vlan = models.PositiveIntegerField()
     management = models.BooleanField() #is this a management port?
@@ -334,11 +334,11 @@ class Harddisk(models.Model):
     size = models.FloatField() #in gigabytes
     ide = models.CharField(max_length=1, choices=IDE_CHOICES)
     array = models.ForeignKey(RaidArray, verbose_name="the raid array this disk belongs to", null=True)
-    startdate = models.DateField(blank=True, null=True)
-    enddate = models.DateField(blank=True, null=True) #warranty
+    startdate = models.DateField(blank=True)
+    enddate = models.DateField(blank=True) #warranty
     brand = models.CharField(max_length=255)
     brandType = models.CharField(max_length=255)
-    serialnr = models.CharField(max_length=255, blank=True, null=True)
+    serialnr = models.CharField(max_length=255, blank=True)
 
     def __unicode__(self):
         text = u'Harddisk({0}, {1}, {2})'.format(unicode(self.server), self.size, self.serialnr)
