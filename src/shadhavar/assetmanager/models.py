@@ -17,9 +17,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
-
 from django.db import models
 
 class Datacentre(models.Model):
@@ -152,7 +149,7 @@ class KVM(Device):
     class Meta:
         verbose_name_plural = "KVMs"
 
-    functions = models.ManyToManyField(Device)
+    connections = models.ManyToManyField(Device)
     remote = models.CharField(max_length=1, choices=REMOTE_CHOICES)
     maxdevices = models.PositiveIntegerField(blank=True)
     
