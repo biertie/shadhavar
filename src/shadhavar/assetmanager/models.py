@@ -341,7 +341,7 @@ class Harddisk(models.Model):
     serialnr = models.CharField(max_length=255, blank=True)
 
     def __unicode__(self):
-        text = u'Harddisk({0}, {1}, {2})'.format(unicode(self.server), self.size, self.serialnr)
+        text = u'Harddisk({0}, {1}, {2})'.format(unicode(self.parent), self.size, self.serialnr)
         return text
 
 class Partition(models.Model):
