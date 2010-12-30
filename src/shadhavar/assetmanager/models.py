@@ -357,3 +357,10 @@ class Partition(models.Model):
     def __unicode__(self):
         text = u'Partition({0}, {1})'.format(unicode(self.parent), self.size)
         return text
+
+class Maintenance(models.Model):
+    target = models.ForeignKey(Device, verbose_name="the device under maintenance")
+    reason = models.CharField(max_length=255, blank=True)
+    scheduled = models.BooleanField()
+    start_date = models.DateField()
+    end_date = models.DateField(blank=True, null=True)
