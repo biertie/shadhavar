@@ -83,7 +83,8 @@ class Device(models.Model):
     serialnr = models.CharField(max_length=255, blank=True)
     os = models.CharField(max_length=255, blank=True)
     startdate = models.DateField(blank=True, null=True)
-    enddate = models.DateField(blank=True, null=True)
+    enddate = models.DateField(blank=True, null=True) //r.i.p
+    maintainance = models.BooleanField()
     comments = models.TextField(blank=True)
 
     def __unicode__(self):
