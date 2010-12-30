@@ -1,3 +1,18 @@
+# Copyright (C) 2010 Devnox-IT, http://www.devnox-it.com
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 BEGIN;CREATE TABLE `assetmanager_datacentre` (
     `id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY,
     `name` varchar(255) NOT NULL,
@@ -24,8 +39,8 @@ CREATE TABLE `assetmanager_rack` (
     `name` varchar(255) NOT NULL,
     `height` integer UNSIGNED NOT NULL,
     `kind` varchar(1) NOT NULL,
-    `row` integer UNSIGNED NOT NULL,
-    `column` integer UNSIGNED NOT NULL,
+    `row` integer UNSIGNED,
+    `column` integer UNSIGNED,
     `serverroom_id` integer NOT NULL,
     `rack_id` integer,
     `comments` longtext NOT NULL
@@ -114,7 +129,7 @@ ALTER TABLE `assetmanager_kvm_connections` ADD CONSTRAINT `kvm_id_refs_device_pt
 CREATE TABLE `assetmanager_ups` (
     `device_ptr_id` integer NOT NULL PRIMARY KEY,
     `power` double precision NOT NULL,
-    `ammountbatteries` integer UNSIGNED NOT NULL,
+    `ammountbatteries` integer UNSIGNED,
     `typebatteries` varchar(255) NOT NULL,
     `monitoring` varchar(1) NOT NULL,
     `management` varchar(1) NOT NULL
@@ -151,8 +166,8 @@ CREATE TABLE `assetmanager_diskarray` (
     `conntectTo_id` integer
 )
 ;
-ALTER TABLE `assetmanager_diskarray` ADD CONSTRAINT `device_ptr_id_refs_id_3173be28` FOREIGN KEY (`device_ptr_id`) REFERENCES `assetmanager_device` (`id`);
 ALTER TABLE `assetmanager_diskarray` ADD CONSTRAINT `conntectTo_id_refs_device_ptr_id_3eea6d09` FOREIGN KEY (`conntectTo_id`) REFERENCES `assetmanager_server` (`device_ptr_id`);
+ALTER TABLE `assetmanager_diskarray` ADD CONSTRAINT `device_ptr_id_refs_id_3173be28` FOREIGN KEY (`device_ptr_id`) REFERENCES `assetmanager_device` (`id`);
 CREATE TABLE `assetmanager_vm_functions` (
     `id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY,
     `vm_id` integer NOT NULL,
@@ -169,17 +184,17 @@ CREATE TABLE `assetmanager_vm` (
     `ram` integer UNSIGNED
 )
 ;
-ALTER TABLE `assetmanager_vm` ADD CONSTRAINT `device_ptr_id_refs_id_608a3ff4` FOREIGN KEY (`device_ptr_id`) REFERENCES `assetmanager_device` (`id`);
 ALTER TABLE `assetmanager_vm` ADD CONSTRAINT `server_id_refs_device_ptr_id_798a4a5b` FOREIGN KEY (`server_id`) REFERENCES `assetmanager_server` (`device_ptr_id`);
+ALTER TABLE `assetmanager_vm` ADD CONSTRAINT `device_ptr_id_refs_id_608a3ff4` FOREIGN KEY (`device_ptr_id`) REFERENCES `assetmanager_device` (`id`);
 ALTER TABLE `assetmanager_vm_functions` ADD CONSTRAINT `vm_id_refs_device_ptr_id_19d19c33` FOREIGN KEY (`vm_id`) REFERENCES `assetmanager_vm` (`device_ptr_id`);
 CREATE TABLE `assetmanager_subnet` (
     `id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    `networkaddr4` char(15) NOT NULL,
-    `subnetaddr4` char(15) NOT NULL,
-    `broadcast4` char(15) NOT NULL,
-    `networkaddr6` char(15) NOT NULL,
-    `subnetaddr6` char(15) NOT NULL,
-    `lastip6` char(15) NOT NULL
+    `networkaddr4` char(15),
+    `subnetaddr4` char(15),
+    `broadcast4` char(15),
+    `networkaddr6` char(15),
+    `subnetaddr6` char(15),
+    `lastip6` char(15)
 )
 ;
 CREATE TABLE `assetmanager_networkhardinterface` (
@@ -193,31 +208,31 @@ CREATE TABLE `assetmanager_networkinterface` (
     `subnet_id` integer NOT NULL,
     `kind_id` integer NOT NULL,
     `name` varchar(255) NOT NULL,
-    `ip4` char(15) NOT NULL,
-    `ip6` char(15) NOT NULL,
-    `gateway4` char(15) NOT NULL,
-    `gateway6` char(15) NOT NULL,
+    `ip4` char(15),
+    `ip6` char(15),
+    `gateway4` char(15),
+    `gateway6` char(15),
     `mac` varchar(255) NOT NULL,
-    `vlan` integer UNSIGNED NOT NULL,
+    `vlan` integer UNSIGNED,
     `management` bool NOT NULL,
     `connectedTo_id` integer
 )
 ;
 ALTER TABLE `assetmanager_networkinterface` ADD CONSTRAINT `kind_id_refs_id_5b6caaec` FOREIGN KEY (`kind_id`) REFERENCES `assetmanager_networkhardinterface` (`id`);
-ALTER TABLE `assetmanager_networkinterface` ADD CONSTRAINT `device_id_refs_id_5a848e8e` FOREIGN KEY (`device_id`) REFERENCES `assetmanager_device` (`id`);
 ALTER TABLE `assetmanager_networkinterface` ADD CONSTRAINT `subnet_id_refs_id_6bb338cd` FOREIGN KEY (`subnet_id`) REFERENCES `assetmanager_subnet` (`id`);
+ALTER TABLE `assetmanager_networkinterface` ADD CONSTRAINT `device_id_refs_id_5a848e8e` FOREIGN KEY (`device_id`) REFERENCES `assetmanager_device` (`id`);
 ALTER TABLE `assetmanager_networkinterface` ADD CONSTRAINT `connectedTo_id_refs_id_4575b189` FOREIGN KEY (`connectedTo_id`) REFERENCES `assetmanager_networkinterface` (`id`);
 CREATE TABLE `assetmanager_raidarray` (
     `id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY,
     `name` varchar(255) NOT NULL,
-    `Size` double precision NOT NULL,
+    `Size` double precision,
     `raidType` varchar(1) NOT NULL
 )
 ;
 CREATE TABLE `assetmanager_harddisk` (
     `id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY,
     `parent_id` integer,
-    `size` double precision NOT NULL,
+    `size` double precision,
     `ide` varchar(1) NOT NULL,
     `array_id` integer,
     `startdate` date,
@@ -233,7 +248,7 @@ CREATE TABLE `assetmanager_partition` (
     `id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY,
     `parent_id` integer NOT NULL,
     `name` varchar(255) NOT NULL,
-    `size` double precision NOT NULL,
+    `size` double precision,
     `lvm` bool NOT NULL
 )
 ;
