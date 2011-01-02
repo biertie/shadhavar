@@ -9,6 +9,8 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
+AUTO_LOGOUT_DELAY = 5
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
@@ -73,6 +75,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'middleware.RequireLoginMiddleware',
 )
 
 ROOT_URLCONF = 'urls'
