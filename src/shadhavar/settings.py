@@ -9,7 +9,14 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
+# Time (minutes) it takes before you will be automatically logged out
 AUTO_LOGOUT_DELAY = 5
+
+#EMAIL_HOST =
+#EMAIL_PORT =
+#EMAIL_HOST_USER =
+#EMAIL_HOST_PASSWORD =
+#EMAIL_USE_TLS =
 
 DATABASES = {
     'default': {

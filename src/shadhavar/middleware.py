@@ -18,7 +18,7 @@ class RequireLoginMiddleware(object):
     def process_request(self, request):
         if request.path != self.require_login_path and request.user.is_anonymous():
             if request.POST:
-                return login(request, template_name='accounts/login.html', redirect_field_name='next')
+                return login(request)
             else:
                 return HttpResponseRedirect('%s?next=%s' % (self.require_login_path, request.path))
 

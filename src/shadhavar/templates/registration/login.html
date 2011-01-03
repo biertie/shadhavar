@@ -13,5 +13,5 @@
 <input type="hidden" name="next" value="{{ next }}" />
 <input type="submit" value="login" />
 </form>
-<a href="{% url accounts_reset %}">Reset password</a>
+<a href="{% url django.contrib.auth.views.password_reset %}">Reset password</a>
 {% endblock %}
