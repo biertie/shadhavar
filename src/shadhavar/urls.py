@@ -23,6 +23,11 @@ urlpatterns += patterns('django.views.generic',
     (r'^assets/datacentre/(?P<object_id>[0-9]+)/$', 'list_detail.object_detail', {'queryset': assetmanager.models.Datacentre.objects.all()}, 'datacentre_detail'),
     (r'^assets/datacentre/add/$', 'create_update.create_object', {'model': assetmanager.models.Datacentre, 'post_save_redirect': '/assets/datacentre/'}, 'datacentre_add'),
     (r'^assets/datacentre/edit/(?P<object_id>[0-9]+)/$', 'create_update.update_object', {'model': assetmanager.models.Datacentre, 'post_save_redirect': '/assets/datacentre/'}, 'datacentre_update'),
+
+    (r'^assets/serverroom/$', 'list_detail.object_list', {'queryset': assetmanager.models.Serverroom.objects.all()}, 'serverroom_index'),
+    (r'^assets/serverroom/(?P<object_id>[0-9]+)/$', 'list_detail.object_detail', {'queryset': assetmanager.models.Serverroom.objects.all()}, 'serverroom_detail'),
+    (r'^assets/serverroom/add/$', 'create_update.create_object', {'model': assetmanager.models.Serverroom, 'post_save_redirect': '/assets/serverroom/'}, 'serverroom_add'),
+    (r'^assets/serverroom/edit/(?P<object_id>[0-9]+)/$', 'create_update.update_object', {'model': assetmanager.models.Serverroom, 'post_save_redirect': '/assets/serverroom/'}, 'serverroom_update'),
 )
 
 urlpatterns += patterns('',

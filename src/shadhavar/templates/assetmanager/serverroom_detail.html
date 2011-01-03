@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Serverroom detail{% endblock %}
+
+{% block content %}
+    <table>
+        <tr>
+            <td>id</td>
+            <td>{{ object.id }}</td>
+        </tr>
+        <tr>
+            <td>datacentre</td>
+            <td>{{ object.datacentre }}</td>
+        </tr>
+        <tr>
+            <td>name</td>
+            <td>{{ object.name }}</td>
+        </tr>
+        <tr>
+            <td>floor</td>
+            <td>{{ object.floor }}</td>
+        </tr>
+        <tr>
+            <td>maxrows</td>
+            <td>{{ object.maxrows }}</td>
+        </tr>
+        <tr>
+            <td>maxcolumns</td>
+            <td>{{ object.maxcolumns }}</td>
+        </tr>
+        <tr>
+            <td>comments</td>
+            <td>{{ object.comments }}</td>
+        </tr>
+    </table>
+{% endblock %}
