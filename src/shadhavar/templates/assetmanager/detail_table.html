@@ -1,0 +1,8 @@
+<table>
+    {% for f in fields %}
+        <tr>
+            <td>f</td>
+            <td>{{ getattr(object, f) }}</td>
+        </tr>
+    {% endfor %}
+</table>

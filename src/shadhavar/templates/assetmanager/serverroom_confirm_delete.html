@@ -3,40 +3,13 @@
 {% block title %}Delete serverroom{% endblock %}
 
 {% block content %}
-<p>Are you sure you want to delete the following serverroom?</p>
-    <table>
-        <tr>
-            <td>id</td>
-            <td>{{ object.id }}</td>
-        </tr>
-        <tr>
-            <td>datacentre</td>
-            <td>{{ object.datacentre }}</td>
-        </tr>
-        <tr>
-            <td>name</td>
-            <td>{{ object.name }}</td>
-        </tr>
-        <tr>
-            <td>floor</td>
-            <td>{{ object.floor }}</td>
-        </tr>
-        <tr>
-            <td>maxrows</td>
-            <td>{{ object.maxrows }}</td>
-        </tr>
-        <tr>
-            <td>maxcolumns</td>
-            <td>{{ object.maxcolumns }}</td>
-        </tr>
-        <tr>
-            <td>comments</td>
-            <td>{{ object.comments }}</td>
-        </tr>
-    </table>
-<form action="" method="post">
-    {% csrf_token %}
-    <input type="hidden" name="id" value="{{ object.id }}" />
-    <input type="submit" value="Delete" />
-</form>
+    <p>Are you sure you want to delete the following serverroom?</p>
+    {% fields = ('id', 'datacentre', 'name', 'floor', 'maxrows', 'maxcolumns', 'comments') %}
+    {% include "detail_table.html" %}
+
+    <form action="" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="id" value="{{ object.id }}" />
+        <input type="submit" value="Delete" />
+    </form>
 {% endblock %}
