@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Datacentre detail{% endblock %}
+
+{% block content %}
+    <table>
+        <tr>
+            <td>id</td>
+            <td>{{ object.id }}</td>
+        </tr>
+        <tr>
+            <td>name</td>
+            <td>{{ object.name }}</td>
+        </tr>
+        <tr>
+            <td>address</td>
+            <td>{{ object.address }}</td>
+        </tr>
+        <tr>
+            <td>city</td>
+            <td>{{ object.city }}</td>
+        </tr>
+        <tr>
+            <td>postcode</td>
+            <td>{{ object.postcode }}</td>
+        </tr>
+        <tr>
+            <td>country</td>
+            <td>{{ object.country }}</td>
+        </tr>
+        <tr>
+            <td>comments</td>
+            <td>{{ object.comments }}</td>
+        </tr>
+    </table>
+{% endblock %}

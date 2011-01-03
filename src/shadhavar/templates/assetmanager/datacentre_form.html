@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Add datacentre{% endblock %}
+
+{% block content %}
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.name.errors }}
+        {{ form.name.label_tag }}{{ form.name }}<br />
+        {{ form.address.errors }}
+        {{ form.address.label_tag }}{{ form.address }}<br />
+        {{ form.city.errors }}
+        {{ form.city.label_tag }}{{ form.city }}<br />
+        {{ form.postcode.errors }}
+        {{ form.postcode.label_tag }}{{ form.postcode }}<br />
+        {{ form.country.errors }}
+        {{ form.country.label_tag }}{{ form.country }}<br />
+        {{ form.comments.errors }}
+        {{ form.comments.label_tag }}{{ form.comments }}<br />
+        <input type="submit" value="Save" />
+    </form>
+{% endblock %}

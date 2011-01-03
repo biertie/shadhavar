@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}List datacentres{% endblock %}
+
+{% block content %}
+    <table>
+        <tr>
+            <th>id</th>
+            <th>name</th>
+            <th>address</th>
+            <th>city</th>
+            <th>postcode</th>
+            <th>country</th>
+            <th>comments</th>
+        </tr>
+        {% for datacentre in object_list %}
+            <tr>
+                <td>{{ datacentre.id }}</td>
+                <td>{{ datacentre.name }}</td>
+                <td>{{ datacentre.address }}</td>
+                <td>{{ datacentre.city }}</td>
+                <td>{{ datacentre.postcode }}</td>
+                <td>{{ datacentre.country }}</td>
+                <td>{{ datacentre.comments }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
