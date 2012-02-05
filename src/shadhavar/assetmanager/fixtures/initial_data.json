@@ -1,1 +1,376 @@
-[{"pk": 1, "model": "assetmanager.datacentre", "fields": {"city": "City 1", "name": "Datacentre 1", "country": "Country 1", "comments": "", "postcode": "Postcode 1", "address": "Street 1"}}, {"pk": 1, "model": "assetmanager.serverroom", "fields": {"datacentre": 1, "name": "Serverroom 1", "floor": 1, "maxcolumns": 10, "comments": "", "maxrows": 10}}, {"pk": 1, "model": "assetmanager.rack", "fields": {"kind": "0", "name": "Rack 1", "column": 1, "comments": "", "height": 1, "rack": null, "serverroom": 1, "row": 1}}, {"pk": 1, "model": "assetmanager.device", "fields": {"startdate": null, "enddate": null, "name": "DiskArray 1", "brand": "Brand 1", "comments": "", "height": 1, "serialnr": "", "position": 1, "os": "", "rack": 1, "brandType": "Type 1"}}, {"pk": 2, "model": "assetmanager.device", "fields": {"startdate": null, "enddate": null, "name": "KVM 1", "brand": "Brand 1", "comments": "", "height": 1, "serialnr": "", "position": 1, "os": "", "rack": 1, "brandType": "Type 1"}}, {"pk": 3, "model": "assetmanager.device", "fields": {"startdate": null, "enddate": null, "name": "Other 1", "brand": "Brand 1", "comments": "", "height": null, "serialnr": "", "position": null, "os": "", "rack": 1, "brandType": "Type 1"}}, {"pk": 4, "model": "assetmanager.device", "fields": {"startdate": null, "enddate": null, "name": "PDU 1", "brand": "Brand 1", "comments": "", "height": null, "serialnr": "", "position": null, "os": "", "rack": 1, "brandType": "Type 1"}}, {"pk": 5, "model": "assetmanager.device", "fields": {"startdate": null, "enddate": null, "name": "Router 1", "brand": "Brand 1", "comments": "", "height": null, "serialnr": "", "position": null, "os": "", "rack": 1, "brandType": "Type 1"}}, {"pk": 6, "model": "assetmanager.device", "fields": {"startdate": null, "enddate": null, "name": "Server 1", "brand": "Brand 1", "comments": "", "height": null, "serialnr": "", "position": null, "os": "", "rack": 1, "brandType": "Type 1"}}, {"pk": 7, "model": "assetmanager.device", "fields": {"startdate": null, "enddate": null, "name": "Switch 1", "brand": "Brand 1", "comments": "", "height": null, "serialnr": "", "position": null, "os": "", "rack": 1, "brandType": "Type 1"}}, {"pk": 8, "model": "assetmanager.device", "fields": {"startdate": null, "enddate": null, "name": "UPS 1", "brand": "Brand 1", "comments": "", "height": null, "serialnr": "", "position": null, "os": "", "rack": 1, "brandType": "Type 1"}}, {"pk": 9, "model": "assetmanager.device", "fields": {"startdate": null, "enddate": null, "name": "VM 1", "brand": "Brand 1", "comments": "", "height": null, "serialnr": "", "position": null, "os": "", "rack": 1, "brandType": "Type 1"}}, {"pk": 1, "model": "assetmanager.devicefunction", "fields": {"name": "DeviceFunction 1"}}, {"pk": 5, "model": "assetmanager.router", "fields": {"functions": [1], "ram": null, "cpu": ""}}, {"pk": 6, "model": "assetmanager.server", "fields": {"gpu": "Nvidia", "functions": [1], "ram": null, "cpu": ""}}, {"pk": 7, "model": "assetmanager.switch", "fields": {"kind": "1", "poe": false}}, {"pk": 2, "model": "assetmanager.kvm", "fields": {"connections": [1], "maxdevices": 100, "remote": "2"}}, {"pk": 8, "model": "assetmanager.ups", "fields": {"monitoring": "1", "management": "1", "ammountbatteries": 100, "typebatteries": "1", "power": 1000.0}}, {"pk": 3, "model": "assetmanager.other", "fields": {"functions": [1]}}, {"pk": 4, "model": "assetmanager.pdu", "fields": {"management": "1", "monitoring": "1", "ammount": 1000}}, {"pk": 1, "model": "assetmanager.diskarray", "fields": {"maxDisks": 1000, "connection": "1", "conntectTo": null, "arrayType": "1"}}, {"pk": 9, "model": "assetmanager.vm", "fields": {"hypervisor": "KVM", "functions": [1], "ram": null, "cpu": "", "server": 6}}, {"pk": 1, "model": "assetmanager.subnet", "fields": {"subnetaddr4": "255.255.255.0", "lastip6": "192.168.124.15", "broadcast4": "192.168.50.255", "networkaddr6": "192.168.0.0", "networkaddr4": "192.168.50.0", "subnetaddr6": "255.255.0.0"}}, {"pk": 1, "model": "assetmanager.networkhardinterface", "fields": {"kind": "NetworkHardInterface1"}}, {"pk": 1, "model": "assetmanager.networkinterface", "fields": {"subnet": 1, "kind": 1, "management": false, "name": "Networkinterface1", "vlan": 1, "mac": "ff:ff:ff:ff:ff:ff", "connectedTo": null, "gateway6": "", "gateway4": "", "ip6": "", "ip4": "", "device": 1}}, {"pk": 1, "model": "assetmanager.raidarray", "fields": {"raidType": "9", "name": "RaidArray1", "Size": 10.0}}, {"pk": 1, "model": "assetmanager.harddisk", "fields": {"startdate": null, "enddate": null, "parent": 1, "brand": "Brand 1", "serialnr": "", "array": 1, "ide": "3", "brandType": "type 1", "size": 1024.0}}, {"pk": 1, "model": "assetmanager.partition", "fields": {"lvm": false, "name": "Partition 1", "parent": 1, "size": 512.0}}, {"pk": 1, "model": "assetmanager.maintenance", "fields": {"scheduled": true, "reason": "Will break", "target": 7, "end_date": "2011-01-11", "start_date": "2011-01-04"}}]
+[
+  {
+    "pk":1,
+    "model":"assetmanager.datacentre",
+    "fields":{
+      "city":"City 1",
+      "name":"Datacentre 1",
+      "country":"Country 1",
+      "comments":"",
+      "postcode":"Postcode 1",
+      "address":"Street 1"
+    }
+  },
+  {
+    "pk":1,
+    "model":"assetmanager.serverroom",
+    "fields":{
+      "datacentre":1,
+      "name":"Serverroom 1",
+      "floor":1,
+      "maxcolumns":10,
+      "comments":"",
+      "maxrows":10
+    }
+  },
+  {
+    "pk":1,
+    "model":"assetmanager.rack",
+    "fields":{
+      "kind":"0",
+      "name":"Rack 1",
+      "column":1,
+      "comments":"",
+      "height":1,
+      "rack":null,
+      "serverroom":1,
+      "row":1
+    }
+  },
+  {
+    "pk":1,
+    "model":"assetmanager.device",
+    "fields":{
+      "startdate":null,
+      "enddate":null,
+      "name":"DiskArray 1",
+      "brand":"Brand 1",
+      "comments":"",
+      "height":1,
+      "serialnr":"",
+      "position":1,
+      "os":"",
+      "rack":1,
+      "brandType":"Type 1"
+    }
+  },
+  {
+    "pk":2,
+    "model":"assetmanager.device",
+    "fields":{
+      "startdate":null,
+      "enddate":null,
+      "name":"KVM 1",
+      "brand":"Brand 1",
+      "comments":"",
+      "height":1,
+      "serialnr":"",
+      "position":1,
+      "os":"",
+      "rack":1,
+      "brandType":"Type 1"
+    }
+  },
+  {
+    "pk":3,
+    "model":"assetmanager.device",
+    "fields":{
+      "startdate":null,
+      "enddate":null,
+      "name":"Other 1",
+      "brand":"Brand 1",
+      "comments":"",
+      "height":null,
+      "serialnr":"",
+      "position":null,
+      "os":"",
+      "rack":1,
+      "brandType":"Type 1"
+    }
+  },
+  {
+    "pk":4,
+    "model":"assetmanager.device",
+    "fields":{
+      "startdate":null,
+      "enddate":null,
+      "name":"PDU 1",
+      "brand":"Brand 1",
+      "comments":"",
+      "height":null,
+      "serialnr":"",
+      "position":null,
+      "os":"",
+      "rack":1,
+      "brandType":"Type 1"
+    }
+  },
+  {
+    "pk":5,
+    "model":"assetmanager.device",
+    "fields":{
+      "startdate":null,
+      "enddate":null,
+      "name":"Router 1",
+      "brand":"Brand 1",
+      "comments":"",
+      "height":null,
+      "serialnr":"",
+      "position":null,
+      "os":"",
+      "rack":1,
+      "brandType":"Type 1"
+    }
+  },
+  {
+    "pk":6,
+    "model":"assetmanager.device",
+    "fields":{
+      "startdate":null,
+      "enddate":null,
+      "name":"Server 1",
+      "brand":"Brand 1",
+      "comments":"",
+      "height":null,
+      "serialnr":"",
+      "position":null,
+      "os":"",
+      "rack":1,
+      "brandType":"Type 1"
+    }
+  },
+  {
+    "pk":7,
+    "model":"assetmanager.device",
+    "fields":{
+      "startdate":null,
+      "enddate":null,
+      "name":"Switch 1",
+      "brand":"Brand 1",
+      "comments":"",
+      "height":null,
+      "serialnr":"",
+      "position":null,
+      "os":"",
+      "rack":1,
+      "brandType":"Type 1"
+    }
+  },
+  {
+    "pk":8,
+    "model":"assetmanager.device",
+    "fields":{
+      "startdate":null,
+      "enddate":null,
+      "name":"UPS 1",
+      "brand":"Brand 1",
+      "comments":"",
+      "height":null,
+      "serialnr":"",
+      "position":null,
+      "os":"",
+      "rack":1,
+      "brandType":"Type 1"
+    }
+  },
+  {
+    "pk":9,
+    "model":"assetmanager.device",
+    "fields":{
+      "startdate":null,
+      "enddate":null,
+      "name":"VM 1",
+      "brand":"Brand 1",
+      "comments":"",
+      "height":null,
+      "serialnr":"",
+      "position":null,
+      "os":"",
+      "rack":1,
+      "brandType":"Type 1"
+    }
+  },
+  {
+    "pk":1,
+    "model":"assetmanager.devicefunction",
+    "fields":{
+      "name":"DeviceFunction 1"
+    }
+  },
+  {
+    "pk":5,
+    "model":"assetmanager.router",
+    "fields":{
+      "functions":[
+        1
+      ],
+      "ram":null,
+      "cpu":""
+    }
+  },
+  {
+    "pk":6,
+    "model":"assetmanager.server",
+    "fields":{
+      "gpu":"Nvidia",
+      "functions":[
+        1
+      ],
+      "ram":null,
+      "cpu":""
+    }
+  },
+  {
+    "pk":7,
+    "model":"assetmanager.switch",
+    "fields":{
+      "kind":"1",
+      "poe":false
+    }
+  },
+  {
+    "pk":2,
+    "model":"assetmanager.kvm",
+    "fields":{
+      "connections":[
+        1
+      ],
+      "maxdevices":100,
+      "remote":"2"
+    }
+  },
+  {
+    "pk":8,
+    "model":"assetmanager.ups",
+    "fields":{
+      "monitoring":"1",
+      "management":"1",
+      "ammountbatteries":100,
+      "typebatteries":"1",
+      "power":1000.0
+    }
+  },
+  {
+    "pk":3,
+    "model":"assetmanager.other",
+    "fields":{
+      "functions":[
+        1
+      ]
+    }
+  },
+  {
+    "pk":4,
+    "model":"assetmanager.pdu",
+    "fields":{
+      "management":"1",
+      "monitoring":"1",
+      "ammount":1000
+    }
+  },
+  {
+    "pk":1,
+    "model":"assetmanager.diskarray",
+    "fields":{
+      "maxDisks":1000,
+      "connection":"1",
+      "conntectTo":null,
+      "arrayType":"1"
+    }
+  },
+  {
+    "pk":9,
+    "model":"assetmanager.vm",
+    "fields":{
+      "hypervisor":"KVM",
+      "functions":[
+        1
+      ],
+      "ram":null,
+      "cpu":"",
+      "server":6
+    }
+  },
+  {
+    "pk":1,
+    "model":"assetmanager.subnet",
+    "fields":{
+      "subnetaddr4":"255.255.255.0",
+      "lastip6":"192.168.124.15",
+      "broadcast4":"192.168.50.255",
+      "networkaddr6":"192.168.0.0",
+      "networkaddr4":"192.168.50.0",
+      "subnetaddr6":"255.255.0.0"
+    }
+  },
+  {
+    "pk":1,
+    "model":"assetmanager.networkhardinterface",
+    "fields":{
+      "kind":"NetworkHardInterface1"
+    }
+  },
+  {
+    "pk":1,
+    "model":"assetmanager.networkinterface",
+    "fields":{
+      "subnet":1,
+      "kind":1,
+      "management":false,
+      "name":"Networkinterface1",
+      "vlan":1,
+      "mac":"ff:ff:ff:ff:ff:ff",
+      "connectedTo":null,
+      "gateway6":null,
+      "gateway4":null,
+      "ip6":null,
+      "ip4":null,
+      "device":1
+    }
+  },
+  {
+    "pk":1,
+    "model":"assetmanager.raidarray",
+    "fields":{
+      "raidType":"9",
+      "name":"RaidArray1",
+      "Size":10.0
+    }
+  },
+  {
+    "pk":1,
+    "model":"assetmanager.harddisk",
+    "fields":{
+      "startdate":null,
+      "enddate":null,
+      "parent":1,
+      "brand":"Brand 1",
+      "serialnr":"",
+      "array":1,
+      "ide":"3",
+      "brandType":"type 1",
+      "size":1024.0
+    }
+  },
+  {
+    "pk":1,
+    "model":"assetmanager.partition",
+    "fields":{
+      "lvm":false,
+      "name":"Partition 1",
+      "parent":1,
+      "size":512.0
+    }
+  },
+  {
+    "pk":1,
+    "model":"assetmanager.maintenance",
+    "fields":{
+      "scheduled":true,
+      "reason":"Will break",
+      "target":7,
+      "end_date":"2011-01-11",
+      "start_date":"2011-01-04"
+    }
+  }
+]
