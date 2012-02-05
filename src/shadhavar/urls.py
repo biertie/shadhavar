@@ -1,8 +1,10 @@
 from django.conf.urls.defaults import *
+import settings
 
 # temporarily enable the admin interface
-from django.contrib import admin
-admin.autodiscover()
+if settings.DEBUG:
+    from django.contrib import admin
+    admin.autodiscover()
 
 import django.contrib.auth.views
 urlpatterns = patterns('',
@@ -32,7 +34,8 @@ urlpatterns += patterns('django.views.generic',
     (r'^assets/serverroom/delete/(?P<object_id>[0-9]+)/$', 'create_update.delete_object', {'model': assetmanager.models.Serverroom, 'post_delete_redirect': '/assets/serverroom/'}, 'serverroom_delete'),
 )
 
-urlpatterns += patterns('',
-    (r'^admin/doc/', include('django.contrib.admindocs.urls')),
-    (r'^admin/', include(admin.site.urls)),
-)
+if settings.DEBUG:
+    urlpatterns += patterns('',
+        (r'^admin/doc/', include('django.contrib.admindocs.urls')),
+        (r'^admin/', include(admin.site.urls)),
+    )
