@@ -2,6 +2,7 @@ shadhavar meeting fosdem 2012.
 
 things to look at:
 * VM's > are they a device? or how should we put them in te db. 
+  - yes, they are a device; devices just aren't physical per se (in which case certain fields can be omitted)
 * how to work with clusters / migrating vm's? 
 
 Things to discuss:
