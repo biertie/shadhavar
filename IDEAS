@@ -31,7 +31,7 @@ IDEAS:
     - This should have an ajax-based filter (which should actually fetch data, unlike a js filter acting upon the table)
     - There should be some sort of text search for the label, might need some fancy thingy like lucene
 
-* Rack navigation (taken from [])
+* Rack navigation (based on RackMonkey's UI)
   - Table/list is automatically graphical as well
   - Should have a toggle for showing/hiding empty spaces
 

@@ -4,13 +4,13 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    # ('Your Name', 'your_email@domain.com'),
+    ('Your Name', 'your_email@domain.com'),
 )
 
 MANAGERS = ADMINS
 
 # Time (minutes) it takes before you will be automatically logged out
-AUTO_LOGOUT_DELAY = 5
+AUTO_LOGOUT_DELAY = 15
 
 #EMAIL_HOST =
 #EMAIL_PORT =
@@ -61,10 +61,8 @@ MEDIA_ROOT = ''
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
 MEDIA_URL = ''
 
-# URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
-# trailing slash.
-# Examples: "http://foo.com/media/", "/media/".
-ADMIN_MEDIA_PREFIX = '/media/'
+# URL that handles static files for the normal site
+STATIC_URL = ''
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'rx_kyvbsfw1re9fsc093nqd17to0ey8zq4)sa5r&3#c5ed!$qz'
@@ -100,9 +98,22 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
-    'assetmanager',
-    # Uncomment the next line to enable the admin:
-    'django.contrib.admin',
-    # Uncomment the next line to enable admin documentation:
-    'django.contrib.admindocs',
+    'assetmanager'
 )
+
+if DEBUG:
+    # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
+    # trailing slash.
+    # Examples: "http://foo.com/media/", "/media/".
+    ADMIN_MEDIA_PREFIX = '/media/'
+    INSTALLED_APPS += (
+        'django.contrib.admin',
+        'django.contrib.admindocs'
+    )
+
+    CACHES = {
+        'default': {
+            'BACKEND':
+                'django.core.cache.backends.dummy.DummyCache'
+        }
+    }
