@@ -3,9 +3,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
     <title>{% block title %}Shadhavar asset management tool{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/base.css" />
 </head>
 
 <body>
+    <ul id="menubar">
+      <li><a href="/">Dashboard</a></li>
+    </ul>
     <div id="content">
         {% block content %}{% endblock %}
     </div>

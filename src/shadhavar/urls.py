@@ -6,8 +6,14 @@ if settings.DEBUG:
     from django.contrib import admin
     admin.autodiscover()
 
-import django.contrib.auth.views
+import views
 urlpatterns = patterns('',
+    (r'^$', views.dashboard, {}, 'dashboard'),
+    (r'^/$', views.dashboard, {}, 'dashboard')
+)
+
+import django.contrib.auth.views
+urlpatterns += patterns('',
     (r'^accounts/login/$', django.contrib.auth.views.login, {}, 'accounts_login'),
     (r'^accounts/logout/$', django.contrib.auth.views.logout, {}, 'accounts_logout'),
     (r'^accounts/reset/done/$', django.contrib.auth.views.password_reset_done, {}, 'accounts_reset_done'),
