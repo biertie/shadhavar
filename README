@@ -1,10 +1,1 @@
-shadhavar meeting fosdem 2012. 
-
-things to look at:
-* VM's > are they a device? or how should we put them in te db. 
-* how to work with clusters / migrating vm's? 
-
-Things to discuss:
-* spreading the workload 
-* make a list of features for version 1.0 :-)
-* who will provide testing infrastructure 
+Some info about shadhavar should be put in here

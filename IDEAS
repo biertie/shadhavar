@@ -1,0 +1,71 @@
+This is just a list of general ideas, not necessarily discussed, definitely not final (see TODO for those things)
+
+IDEAS:
+* Generic:
+  - Always show the same menubar on the top
+  - Breadcrumb thingy for easy navigation
+  - One must always be able to reach objects within 4 clicks (or even 3?)
+  - Collect more usability rules here
+  - Actually abide by those rules
+
+* Dashboard:
+  - Show a grid of 3 lists with the following things (lrtb): Events, Notifications,
+      Datacenters (navigationable, see below), maybe others, maybe configurable
+    Events are time-based, manually entered, optionally involving DCs, Rooms, Racks or Devices
+    Notifications are system-generated messages, to be handled upon manually. They are _not_ for things
+      to be addressed immediately (but can have high priority, of course). Might later on also be used for
+      monitoring, but that might need its own, seperate, dashboard.
+
+* DC room navigation:
+  - Both grid-based, graphical navigation and list/table based navigation
+  - List/table, row-column sorted:
+
+  -------------------
+  |R|C|ID|Label     |
+  -------------------
+  |0|0| 1|Hank      |
+  |0|1| 2|Internal  |
+  |1|0| 3|Harddisks |
+  -------------------
+
+    - This should have an ajax-based filter (which should actually fetch data, unlike a js filter acting upon the table)
+    - There should be some sort of text search for the label, might need some fancy thingy like lucene
+
+* Rack navigation (taken from [])
+  - Table/list is automatically graphical as well
+  - Should have a toggle for showing/hiding empty spaces
+
+* Ajax based navigation on the dashboard
+  - In order to keep things sane, one should be able to find a device as quickly as possible. This might be done in the
+      respective view using ajax based filters, but also by navigating down the hierarchy of DC>Room>Rack>Device.
+
+  -----------------
+  |Datacenters    |
+  -----------------
+  |Amsterdam    > |
+  |Nijmegen     > |
+  |Brussels     > |
+  -----------------
+
+  - Clicking on the name should lead to the detail page of that entity, clicking on the arrow should go towards
+      the next level and an arrow in the header allows one to go back one level:
+  -------------------
+  |Racks (Room X) < |
+  -------------------
+  |0,0 Hank       > |
+  |0,1 Internal   > |
+  |1,0 HDDs       > |
+  -------------------
+
+
+* Generic notes:
+  - Keep things technical, don't dumb it down unnecessarily. People using this stuff should know more about it than the
+      devs working on it.
+  - Speed is key. Queries should be sane, tables need indices and pages need to load quickly. Things that take a lot of
+      processing should be processed once and stored, if possible. Otherwise caching might need to be implemented.
+  - Keep models simple. No label, short label, canonical label etc. Just one label is enough, don't add useless fields.
+  - Edit/flesh out the data storage/mounts models and relations, keeping in mind both NAS and directly attached storage.
+      It is not just important to know what's physically connected to storage, but also what uses that storage indirectly,
+      which might of course also be storage physically connected to a machine, used over the network. This might be a bit
+      complex to do completely right, but it is of vital importance to know what devices depend on others (within reason,
+      one can't always know what's connected to other machines, but we should give the ability to define such things).
