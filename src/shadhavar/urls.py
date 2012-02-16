@@ -6,10 +6,11 @@ if settings.DEBUG:
     from django.contrib import admin
     admin.autodiscover()
 
-import views
+import views.dashboard.DashboardView
 urlpatterns = patterns('',
-    (r'^$', views.dashboard, {}, 'dashboard'),
-    (r'^/$', views.dashboard, {}, 'dashboard')
+    url(r'^/$',
+        DashboardView.as_view(),
+        name='dashboard')
 )
 
 import django.contrib.auth.views
