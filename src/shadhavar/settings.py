@@ -64,6 +64,15 @@ MEDIA_URL = ''
 # URL that handles static files for the normal site
 STATIC_URL = ''
 
+# Some settings for URL normalisation
+# If you change APPEND_SLASH, update urls.py as appropriate
+PREPEND_WWW = False
+APPEND_SLASH = True
+
+# Generic convenience settings
+USE_ETAGS = True
+SEND_BROKEN_LINK_EMAILS = False
+
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'rx_kyvbsfw1re9fsc093nqd17to0ey8zq4)sa5r&3#c5ed!$qz'
 
