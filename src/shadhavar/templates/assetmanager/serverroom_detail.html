@@ -1,8 +1,0 @@
-{% extends "base.html" %}
-
-{% block title %}Serverroom detail{% endblock %}
-
-{% block content %}
-    {% fields = ('id', 'datacentre', 'name', 'floor', 'maxrows', 'maxcolumns', 'comments') %}
-    {% include "detail_table.html" %}
-{% endblock %}

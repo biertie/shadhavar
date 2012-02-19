@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}List {{ classname }}{% endblock %}
+
+{% block content %}
+    <table>
+        <tr>
+            {% for f in fields %}
+                <th>{{ f }}</th>
+            {% endfor %}
+        </tr>
+        {% for obj in objects %}
+            <tr>
+            {% for f in obj %}
+                <td>{{ f }}</td>
+            {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

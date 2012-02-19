@@ -1,11 +1,10 @@
 {% extends "base.html" %}
 
-{% block title %}Delete datacentre{% endblock %}
+{% block title %}Delete {{ classname }}{% endblock %}
 
 {% block content %}
-    <p>Are you sure you want to remove the following datacentre?</p>
-    {% fields = ('id', 'name', 'address', 'city', 'postcode', 'country', 'comments') %}
-    {% include "detail_table.html" %}
+    <p>Are you sure you want to remove the following {{ classname }}?</p>
+    {% include "assetmanager/detail_table.html" %}
 
     <form action="" method="post">
         {% csrf_token %}
