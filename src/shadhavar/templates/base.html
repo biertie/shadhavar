@@ -7,6 +7,20 @@
 </head>
 
 <body>
+    <ul>
+      <li><a href="{% url dashboard %}">Dashboard</a></li>
+      {% if user.is_active %}
+        {% for item,assets in menu.iteritems %}
+            <li>{{ item }}<ul>
+              {% for asset,link in assets.iteritems %}
+                <li><a href="{{ link }}">{{ asset }}</a></li>
+              {% endfor %}
+            </ul></li>
+        {% endfor %}
+      {% else %}
+        <li>Not authenticated</li>
+      {% endif %}
+    </ul>
     <div id="content">
         {% block content %}{% endblock %}
     </div>
